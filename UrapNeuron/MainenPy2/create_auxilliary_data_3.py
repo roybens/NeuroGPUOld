@@ -112,6 +112,12 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FN = '../../Data/BasicConst' + str(N) + 'Seg.mat'
 	FNP = '../../Data/BasicConst' + str(N) + 'SegP.mat'
 	FNM = '../../Data/ParamsMat' + str(N) + '.mat'
+
+        FN_uint16 = '../../Data2/BasicConst' + str(N) + 'Seg_uint16.mat'
+        FN_double = '../../Data2/BasicConst' + str(N) + 'Seg_double.mat'
+
+        FNP_uint16 = '../../Data2/BasicConst' + str(N) + 'SegP_uint16.mat'
+        FNP_double = '../../Data2/BasicConst' + str(N) + 'SegP_double.mat'
 	
 	aux.d = d
 	aux.e = e
@@ -125,8 +131,22 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FN_dict['Ks'] = np.uint16(Ks)
 	FN_dict['auxCms'] = np.double(aux.Cms);
 	FN_dict['nrnHasHH'] = np.uint16(bool_model)
-	
+
 	sio.savemat(FN, FN_dict)
+
+        FN_dict_uint16 = {}
+        FN_dict_uint16['N'] = np.uint16(N)
+        FN_dict_uint16['Ks'] = np.uint16(Ks)
+        FN_dict_uint16['nrnHasHH'] = np.uint16(bool_model)
+        sio.savemat(FN_uint16, FN_dict_uint16)
+
+        FN_dict_double = {}
+        FN_dict_double['e'] = np.double(e)
+        FN_dict_double['f'] = np.double(f)
+        FN_dict_double['auxCms'] = np.double(aux.Cms)
+        sio.savemat(FN_double, FN_dict_double)
+
+
 	
 	CompByLevel32 = np.zeros((0, 32))
 	CompByFLevel32 = np.zeros((0, 32))
@@ -226,8 +246,46 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP_dict['auxFLRelStarts_1'] = np.uint16(np.subtract(aux.FLRelStarts, 1))
 	FNP_dict['auxFLRelEnds_1'] = np.uint16(np.subtract(aux.FLRelEnds, 1))
 	FNP_dict['auxKsB_1'] = np.uint16(np.subtract(aux.KsB, 1))
-	
+
 	sio.savemat(FNP, FNP_dict)
 	
 	FNP_dict['auxKsB_1'] = np.uint16(np.subtract(aux.KsB, 1))
+
+        FNP_dict_uint16 = {}
+	FNP_dict_uint16['N'] = np.array(np.uint16([N]))
+	FNP_dict_uint16['Ks'] = np.uint16(Ks)
+	FNP_dict_uint16['SegToComp'] = np.uint16(np.subtract(seg_to_comp, 1))
+	FNP_dict_uint16['nrnHasHHSize'] = np.array(np.uint16([bool_model.shape[0]]))
+	FNP_dict_uint16['nrnHasHHT'] = bool_model.T
+	FNP_dict_uint16['SonNoVec'] = np.uint16(SonNoVec)
+	FNP_dict_uint16['Depth'] = np.array(np.uint16([Depth]))
+	FNP_dict_uint16['LognDepth'] = np.array(np.uint16([LognDepth]))
+	FNP_dict_uint16['nFathers'] = np.array(np.uint16([nFathers]))
+	FNP_dict_uint16['nCallForFather'] = np.array(np.uint16([nCallForFather]))
+	FNP_dict_uint16['RelStarts'] = np.uint16(RelStarts)
+	FNP_dict_uint16['RelEnds'] = np.uint16(RelEnds)
+	FNP_dict_uint16['RelVec'] = np.uint16(RelVec)
+	FNP_dict_uint16['SegStartI'] = np.uint16(SegStartI)
+	FNP_dict_uint16['SegEndI'] = np.uint16(SegEndI)
+	FNP_dict_uint16['auxFathers'] = np.uint16(aux.Fathers)
+	FNP_dict_uint16['FIdxsXT'] = np.uint16(FIdxsX.T)
+	FNP_dict_uint16['CompDepth32'] = np.uint16(np.array([CompDepth32]))
+	FNP_dict_uint16['CompFDepth32'] = np.uint16(np.array([CompFDepth32]))
+	FNP_dict_uint16['CompByLevel32T'] = np.uint16(CompByLevel32.T)
+	FNP_dict_uint16['CompByFLevel32T'] = np.uint16(CompByFLevel32.T)
+	FNP_dict_uint16['auxLRelStartsSize'] = np.uint16(np.array([aux.RelStarts.size]))
+	FNP_dict_uint16['auxLRelStarts_1'] = np.uint16(np.subtract(aux.LRelStarts, 1))
+	FNP_dict_uint16['auxLRelEnds_1'] = np.uint16(np.subtract(aux.LRelEnds, 1))
+	FNP_dict_uint16['auxFLRelStartsSize'] = np.uint16(np.array([aux.FLRelStarts.size]))
+	FNP_dict_uint16['auxFLRelStarts_1'] = np.uint16(np.subtract(aux.FLRelStarts, 1))
+	FNP_dict_uint16['auxFLRelEnds_1'] = np.uint16(np.subtract(aux.FLRelEnds, 1))
+	FNP_dict_uint16['auxKsB_1'] = np.uint16(np.subtract(aux.KsB, 1))
+        sio.savemat(FNP_uint16, FN_dict_uint16)
+
+        FNP_dict_double = {}
+	FNP_dict_double['e'] = np.double(e)
+	FNP_dict_double['f'] = np.double(f)
+	FNP_dict_double['cmVec'] = np.double(cmVec)
+        sio.savemat(FNP_double, FNP_dict_double)
+
 	return FN, FNP, FNM, aux
