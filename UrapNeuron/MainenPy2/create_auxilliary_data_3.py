@@ -5,6 +5,8 @@ import cell
 from file_io import *
 from get_parent_from_neuron import get_parent_from_neuron
 import scipy.io as sio
+from cStringIO import StringIO
+import csv
 
 # input_dict = clean_creat_aux_3_mat(load_creat_aux_3_mat('/home/devloop0/inputCreatAux3.mat'))
 # A = input_dict['A']
@@ -113,6 +115,9 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP = '../../Data/BasicConst' + str(N) + 'SegP.mat'
 	FNM = '../../Data/ParamsMat' + str(N) + '.mat'
 
+	FN_csv = '../../Data2/BasicConst' + str(N) + 'Seg.csv'
+	FNP_csv = '../../Data2/BasicConst' + str(N) + 'SegP.csv'
+
         FN_uint16 = '../../Data2/BasicConst' + str(N) + 'Seg_uint16.mat'
         FN_double = '../../Data2/BasicConst' + str(N) + 'Seg_double.mat'
 
@@ -131,6 +136,14 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FN_dict['Ks'] = np.uint16(Ks)
 	FN_dict['auxCms'] = np.double(aux.Cms);
 	FN_dict['nrnHasHH'] = np.uint16(bool_model)
+        FN_data = ''
+        for k in FN_dict:
+            s = StringIO()
+            np.savetxt(s, FN_dict[k], fmt='%.5f', newline=',')
+            st = s.getvalue()
+            FN_data += st + '\n'
+        with open(FN_csv, 'w') as fn_f:
+            fn_f.write(FN_data)
 
 	sio.savemat(FN, FN_dict)
 
@@ -246,6 +259,14 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP_dict['auxFLRelStarts_1'] = np.uint16(np.subtract(aux.FLRelStarts, 1))
 	FNP_dict['auxFLRelEnds_1'] = np.uint16(np.subtract(aux.FLRelEnds, 1))
 	FNP_dict['auxKsB_1'] = np.uint16(np.subtract(aux.KsB, 1))
+        FNP_data = ''
+        for k in FNP_dict:
+            s = StringIO()
+            np.savetxt(s, FNP_dict[k], fmt='%.5f', newline=',')
+            st = s.getvalue()
+            FNP_data += st + '\n'
+        with open(FNP_csv, 'w') as fnp_f:
+            fnp_f.write(FNP_data)
 
 	sio.savemat(FNP, FNP_dict)
 	
