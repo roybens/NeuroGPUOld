@@ -29,7 +29,7 @@ float ina,ica,ik;
 #define vmin_ca (-120.0)
 #define vmax_ca (100.0)
 #define vshift_ca (0.0)
-#define depth_cad (0.0)
+#define depth_cad (0.1)
 #define cainf_cad (0.0001)
 #define taur_cad (200.0)
 #define q10_kca (2.3)

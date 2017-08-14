@@ -194,7 +194,8 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
         n_globals_v[i] = np.fromfile(f, dtype=np.float64, count=1)[0]
     comp_topology_map = [None for i in range(len(comp_names))]
     all_params = np.zeros((n_sets[0], len(comp_names) * int(param_start_i[-1])))
-    
+
+    first_param_m = None
     for kk in range(1, n_sets[0] + 1):
         param_m = np.zeros((len(comp_names), int(param_start_i[-1])))
         for c in range(1, len(comp_names) + 1):
@@ -212,6 +213,9 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
                     param_m[[i - 1 for i in comp_ind], int(param_start_i[F[0][m - 1]] + p - 1)] = Tmp
         tmp = param_m.flatten(order='F')
         all_params[kk - 1,:] = tmp
+        if kk == 1:
+            first_param_m = param_m # Store only the first param_m for templating purposes
+        param_m = None
     print param_m
     f.close()
     all_params = all_params.reshape((all_params.shape[0] * all_params.shape[1],))
@@ -219,4 +223,4 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     f.write(np.array(n_sets).astype(np.uint16))
     f.write(all_params.astype(np.float32))
     f.close()
-    return param_m, runModel_hoc_object
+    return first_param_m, runModel_hoc_object
