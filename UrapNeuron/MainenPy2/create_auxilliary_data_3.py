@@ -1,4 +1,5 @@
 from make_tree_from_parent_vec import make_tree_from_parent_vec
+from collections import OrderedDict
 from auxilliary import Aux
 import numpy as np
 import cell
@@ -129,7 +130,7 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	aux.f = f
 	aux.Cms = cmVec
 	
-	FN_dict = {}
+	FN_dict = OrderedDict()
 	FN_dict['N'] = np.array([np.uint16(N)])
 	FN_dict['e'] = np.double(e)
 	FN_dict['f'] = np.double(f)
@@ -223,7 +224,7 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	CallForFathers = tree_dict['CallForFathers']
 	nCallForFather = CallForFathers.size
 	aux.nCallForFather = nCallForFather
-	FNP_dict = {}
+	FNP_dict = OrderedDict()
 	FNP_dict['N'] = np.array(np.uint16([N]))
 	FNP_dict['NComps'] = np.array(np.uint16([NComps]))
 	FNP_dict['e'] = np.double(e)
