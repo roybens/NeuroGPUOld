@@ -4,6 +4,7 @@ import neuron as nrn
 import numpy as np
 from cell import cell_numel
 import subprocess
+from cStringIO import StringIO
 
 def get_comp_index(types, compt_name):
     ind = []
@@ -218,9 +219,23 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
         param_m = None
     print param_m
     f.close()
-    all_params = all_params.reshape((all_params.shape[0] * all_params.shape[1],))
+    f = open('../../Data2/AllParams.csv', 'w')
+    n_sets_s = StringIO()
+    np.savetxt(n_sets_s, np.array(n_sets), fmt='%5.f', newline=',')
+    n_sets_st = n_sets_s.getvalue()
+    all_params_s = StringIO()
+    np.savetxt(all_params_s, all_params, fmt='%.5f', newline=',')
+    all_params_st = all_params_s.getvalue()
+    f.write('%s\n%s\n' % (n_sets_st, all_params_st))
+    f.close()
     f = open('../../Data/AllParams.dat', 'w')
     f.write(np.array(n_sets).astype(np.uint16))
     f.write(all_params.astype(np.float32))
+    f.close()
+    f = open('../../Data2/ParamsM.csv', 'w')
+    first_param_m_s = StringIO()
+    np.savetxt(first_param_m_s, first_param_m, fmt='%5.f', newline=',')
+    first_param_m_st = first_param_m_s.getvalue()
+    f.write('%s\n' % first_param_m_st)
     f.close()
     return first_param_m, runModel_hoc_object
