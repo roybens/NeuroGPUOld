@@ -218,6 +218,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
             first_param_m = param_m # Store only the first param_m for templating purposes
         param_m = None
     print param_m
+    all_params = all_params.reshape((all_params.shape[0] * all_params.shape[1],))
     f.close()
     f = open('../../Data2/AllParams.csv', 'w')
     n_sets_s = StringIO()
@@ -234,7 +235,8 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     f.close()
     f = open('../../Data2/ParamsM.csv', 'w')
     first_param_m_s = StringIO()
-    np.savetxt(first_param_m_s, first_param_m, fmt='%5.f', newline=',')
+    np.savetxt(first_param_m_s, first_param_m.reshape((first_param_m.shape[0] * first_param_m.shape[1],)),
+        fmt='%5.f', newline=',')
     first_param_m_st = first_param_m_s.getvalue()
     f.write('%s\n' % first_param_m_st)
     f.close()
