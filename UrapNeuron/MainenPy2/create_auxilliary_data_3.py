@@ -140,7 +140,7 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
         FN_data = ''
         for k in FN_dict:
             s = StringIO()
-            np.savetxt(s, FN_dict[k], fmt='%.5f', newline=',')
+            np.savetxt(s, FN_dict[k].flatten(), fmt='%.5f', newline=',')
             st = s.getvalue()
             FN_data += st + '\n'
         with open(FN_csv, 'w') as fn_f:
@@ -263,7 +263,7 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
         FNP_data = ''
         for k in FNP_dict:
             s = StringIO()
-            np.savetxt(s, FNP_dict[k], fmt='%.5f', newline=',')
+            np.savetxt(s, FNP_dict[k].flatten(), fmt='%.5f', newline=',')
             st = s.getvalue()
             FNP_data += st + '\n'
         with open(FNP_csv, 'w') as fnp_f:
