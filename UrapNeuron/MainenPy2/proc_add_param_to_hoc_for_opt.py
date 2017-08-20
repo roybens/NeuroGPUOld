@@ -4,6 +4,7 @@ import neuron as nrn
 import numpy as np
 from cell import cell_numel
 import subprocess
+from cStringIO import StringIO
 
 def get_comp_index(types, compt_name):
     ind = []
@@ -194,7 +195,8 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
         n_globals_v[i] = np.fromfile(f, dtype=np.float64, count=1)[0]
     comp_topology_map = [None for i in range(len(comp_names))]
     all_params = np.zeros((n_sets[0], len(comp_names) * int(param_start_i[-1])))
-    
+
+    first_param_m = None
     for kk in range(1, n_sets[0] + 1):
         param_m = np.zeros((len(comp_names), int(param_start_i[-1])))
         for c in range(1, len(comp_names) + 1):
@@ -212,11 +214,30 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
                     param_m[[i - 1 for i in comp_ind], int(param_start_i[F[0][m - 1]] + p - 1)] = Tmp
         tmp = param_m.flatten(order='F')
         all_params[kk - 1,:] = tmp
+        if kk == 1:
+            first_param_m = param_m # Store only the first param_m for templating purposes
+        param_m = None
     print param_m
-    f.close()
     all_params = all_params.reshape((all_params.shape[0] * all_params.shape[1],))
+    f.close()
+    f = open('../../Data2/AllParams.csv', 'w')
+    n_sets_s = StringIO()
+    np.savetxt(n_sets_s, np.array(n_sets), fmt='%5.f', newline=',')
+    n_sets_st = n_sets_s.getvalue()
+    all_params_s = StringIO()
+    np.savetxt(all_params_s, all_params, fmt='%.5f', newline=',')
+    all_params_st = all_params_s.getvalue()
+    f.write('%s\n%s\n' % (n_sets_st, all_params_st))
+    f.close()
     f = open('../../Data/AllParams.dat', 'w')
     f.write(np.array(n_sets).astype(np.uint16))
     f.write(all_params.astype(np.float32))
     f.close()
-    return param_m, runModel_hoc_object
+    f = open('../../Data2/ParamsM.csv', 'w')
+    first_param_m_s = StringIO()
+    np.savetxt(first_param_m_s, first_param_m.reshape((first_param_m.shape[0] * first_param_m.shape[1],)),
+        fmt='%5.f', newline=',')
+    first_param_m_st = first_param_m_s.getvalue()
+    f.write('%s\n' % first_param_m_st)
+    f.close()
+    return first_param_m, runModel_hoc_object

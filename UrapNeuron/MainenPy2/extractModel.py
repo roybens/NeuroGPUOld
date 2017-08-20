@@ -724,10 +724,10 @@ def set_states_for_cuh(f, n_basic_states, n_extra_states):
 
 def expand_ilp_macros(file_name, other_file_names, ilpn, out_file_name):
     lines = get_lines(file_name)
-    all_lines = lines
+    all_lines = list(lines)
     for fn in other_file_names:
         with open(fn, 'r') as f:
-            lines.extend([l[:-1] if l[-1] == '\n' else l for l in f])
+            all_lines.extend([l[:-1] if l[-1] == '\n' else l for l in f])
     calls = []
     for line in lines:
         if 'SUPERILPMACRO(' in line:
@@ -2098,7 +2098,6 @@ def main():
     #recsites = get_recsites()  # list of section names
     # mod_file_map = get_mod_file_map(topo_mdl.available_mechs) # dictionary whose keys are mechanisms suffixs and values are their .mod file name=
     mechanisms = parse_models(thread)
-
     #def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu,params_m, n_segs_mat, cm_vec, vs_dir, has_f, nd, nrhs):
 
 
