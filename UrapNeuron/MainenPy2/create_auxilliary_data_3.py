@@ -102,9 +102,9 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	RelStarts = tree_dict['RelStarts']
 	RelEnds = tree_dict['RelEnds']
 	
-	aux.RelVec = RelVec
-	aux.RelStarts = RelStarts
-	aux.RelEnds = RelEnds
+	aux.RelVec = np.add(RelVec,1)
+	aux.RelStarts = np.add(RelStarts,1)
+	aux.RelEnds = np.add(RelEnds,1)
 	
 	LastLevelsI = np.where(Level == np.max(Level))[0][0] + 1
 	EndLastLevelsI = SegEndI[LastLevelsI - 1]
@@ -229,9 +229,9 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP_dict['NComps'] = np.array(np.uint16([NComps]))
 	FNP_dict['e'] = np.double(e)
 	FNP_dict['f'] = np.double(f)
-	FNP_dict['Ks'] = np.uint16(Ks)
-	FNP_dict['SegToComp'] = np.uint16(np.subtract(seg_to_comp, 1))
-	FNP_dict['cmVec'] = np.double(cmVec)
+        FNP_dict['Ks'] = np.uint16(Ks)
+        FNP_dict['SegToComp'] = np.uint16(seg_to_comp)
+        FNP_dict['cmVec'] = np.double(cmVec)
 	FNP_dict['nrnHasHHSize'] = np.array(np.uint16([bool_model.shape[0]]))
 	FNP_dict['nrnHasHHT'] = bool_model.T
 	FNP_dict['SonNoVec'] = np.uint16(SonNoVec)
@@ -239,21 +239,21 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP_dict['LognDepth'] = np.array(np.uint16([LognDepth]))
 	FNP_dict['nFathers'] = np.array(np.uint16([nFathers]))
 	FNP_dict['nCallForFather'] = np.array(np.uint16([nCallForFather]))
-	FNP_dict['RelStarts'] = np.uint16(RelStarts)
-	FNP_dict['RelEnds'] = np.uint16(RelEnds)
-	FNP_dict['RelVec'] = np.uint16(RelVec)
-	FNP_dict['SegStartI'] = np.uint16(SegStartI)
-	FNP_dict['SegEndI'] = np.uint16(SegEndI)
+	FNP_dict['RelStarts'] = np.uint16(aux.RelStarts)
+        
+	FNP_dict['RelEnds'] = np.uint16(aux.RelEnds)
+	FNP_dict['RelVec'] = np.uint16(aux.RelVec)
+	FNP_dict['SegStartI'] = np.uint16(aux.SegStartI)
+	FNP_dict['SegEndI'] = np.uint16(aux.SegEndI)
 	FNP_dict['auxFathers'] = np.uint16(aux.Fathers)
 	FNP_dict['FIdxsXT'] = np.uint16(FIdxsX.T)
-	
 	FNP_dict['CompDepth32'] = np.uint16(np.array([CompDepth32]))
 	FNP_dict['CompFDepth32'] = np.uint16(np.array([CompFDepth32]))
 	FNP_dict['CompByLevel32T'] = np.uint16(CompByLevel32.T)
 	FNP_dict['CompByFLevel32T'] = np.uint16(CompByFLevel32.T)
 	aux.CompDepth32 = CompDepth32
 	aux.CompFDepth32 = CompFDepth32
-	FNP_dict['auxLRelStartsSize'] = np.uint16(np.array([aux.RelStarts.size]))
+	FNP_dict['auxLRelStartsSize'] = np.uint16(np.array([aux.LRelStarts.size]))
 	FNP_dict['auxLRelStarts_1'] = np.uint16(np.subtract(aux.LRelStarts, 1))
 	FNP_dict['auxLRelEnds_1'] = np.uint16(np.subtract(aux.LRelEnds, 1))
 	FNP_dict['auxFLRelStartsSize'] = np.uint16(np.array([aux.FLRelStarts.size]))
@@ -275,8 +275,8 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 
         FNP_dict_uint16 = {}
 	FNP_dict_uint16['N'] = np.array(np.uint16([N]))
-	FNP_dict_uint16['Ks'] = np.uint16(Ks)
-	FNP_dict_uint16['SegToComp'] = np.uint16(np.subtract(seg_to_comp, 1))
+        FNP_dict_uint16['Ks'] = np.uint16(Ks)
+        FNP_dict_uint16['SegToComp'] = np.uint16(seg_to_comp)
 	FNP_dict_uint16['nrnHasHHSize'] = np.array(np.uint16([bool_model.shape[0]]))
 	FNP_dict_uint16['nrnHasHHT'] = bool_model.T
 	FNP_dict_uint16['SonNoVec'] = np.uint16(SonNoVec)
