@@ -15,7 +15,7 @@ g_pas2_node=0.02 //transvec.x(2)
 ra= 150//transvec.x(3)
 rm= 30000//transvec.x(4)
 gna_dend=transvec.x(0)
-gna_node=transvec.x(1)
+gna_node=30000
 gna_soma=transvec.x(2)
 gkv_axon=transvec.x(3)
 gkv_soma=transvec.x(4)
@@ -40,7 +40,7 @@ depth_cad=transvec.x(11)
 //gkca_soma=0
 
 g_pas_node = 0.02
-
+print "going to init_cell"
 init_cell()
 
 

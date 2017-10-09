@@ -8,6 +8,7 @@ from get_parent_from_neuron import get_parent_from_neuron
 import scipy.io as sio
 from cStringIO import StringIO
 import csv
+import math
 
 # input_dict = clean_creat_aux_3_mat(load_creat_aux_3_mat('/home/devloop0/inputCreatAux3.mat'))
 # A = input_dict['A']
@@ -20,28 +21,37 @@ import csv
 
 def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg_start,n_segs,seg_to_comp):
 	bool_model = np.array(bool_model)
+        #print bool_model
+        np.savetxt("foo.csv", bool_model.T,fmt='%i', delimiter=",")
 	FTYPESTR = 'float'
-	print 'createAuxData3'
+	#/print 'createAuxData3'
 	FatherBase = [0 for i in range(N - 1)]
 	for i in range(N - 1, 0, -1):
-		if A[i - 1, i] != 0:
+		if  A[i - 1, i] !=0:
 			k = i + 1
+                        #print 'if'
 		else:
 			k = np.where(A[i:,i - 1] != 0)[0] + i + 1
 			k = k[0]
+                        #print 'else'
+         #       print str(k) + 'a is' + str( A[i - 1, i])+ ',i si,' + str(i)
 		FatherBase[i - 1] = k
 	FatherBase = np.array(FatherBase)
-	print FatherBase
-
+	#print FatherBase
+        #print A
 	d = np.diag(A).T
 	e, f = [0 for i in range(N)], [0 for i in range(N)]
-	for i in range(1, N):
-		f[i - 1] = A[i - 1, FatherBase[i - 1] - 1]
-		e[i] = A[FatherBase[i - 1] - 1, i - 1]
+	for i in range(1, N-1):
+                #print 'i is' + str(i)+',' + str(FatherBase[i])  
+		f[i-1] = A[i-1, FatherBase[i-1]-1]
+		e[i] = A[FatherBase[i-1]-1, i-1]
 	f[-1] = 0
+        f[-2] = A[-2,-1]
+        e[-1] = A[-1,-2]
 	f = np.array(f)
 	e = np.array(e)
-
+        #print f
+        #print e
 	Ksx = np.array(parent_seg)
 	Ks = [0]
 	for i in range(2, Ksx.size + 1):
@@ -233,7 +243,7 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
         FNP_dict['SegToComp'] = np.uint16(seg_to_comp)
         FNP_dict['cmVec'] = np.double(cmVec)
 	FNP_dict['nrnHasHHSize'] = np.array(np.uint16([bool_model.shape[0]]))
-	FNP_dict['nrnHasHHT'] = bool_model.T
+	FNP_dict['nrnHasHHT'] = bool_model
 	FNP_dict['SonNoVec'] = np.uint16(SonNoVec)
 	FNP_dict['Depth'] = np.array(np.uint16([Depth]))
 	FNP_dict['LognDepth'] = np.array(np.uint16([LognDepth]))
@@ -246,11 +256,11 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	FNP_dict['SegStartI'] = np.uint16(aux.SegStartI)
 	FNP_dict['SegEndI'] = np.uint16(aux.SegEndI)
 	FNP_dict['auxFathers'] = np.uint16(aux.Fathers)
-	FNP_dict['FIdxsXT'] = np.uint16(FIdxsX.T)
+	FNP_dict['FIdxsXT'] = np.uint16(FIdxsX)
 	FNP_dict['CompDepth32'] = np.uint16(np.array([CompDepth32]))
 	FNP_dict['CompFDepth32'] = np.uint16(np.array([CompFDepth32]))
-	FNP_dict['CompByLevel32T'] = np.uint16(CompByLevel32.T)
-	FNP_dict['CompByFLevel32T'] = np.uint16(CompByFLevel32.T)
+	FNP_dict['CompByLevel32T'] = np.uint16(CompByLevel32)
+	FNP_dict['CompByFLevel32T'] = np.uint16(CompByFLevel32)
 	aux.CompDepth32 = CompDepth32
 	aux.CompFDepth32 = CompFDepth32
 	FNP_dict['auxLRelStartsSize'] = np.uint16(np.array([aux.LRelStarts.size]))

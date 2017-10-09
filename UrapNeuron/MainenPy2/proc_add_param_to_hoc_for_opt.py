@@ -14,19 +14,24 @@ def get_comp_index(types, compt_name):
     return ind
 
 def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base_p, available_mechanisms, neuron_sc, reversals, comp_names, comp_mechanisms, g_globals, n_globals, neuron_types, ftypestr, p_size_set, param_set):
-    available_mechanisms = list(available_mechanisms)
-    print available_mechanisms
-    print all_parameters_non_global_c
-    print neuron_types
+    print "in prcoaddparam"
+    nrn.h("access iseg")
+    #print nrn.h("gbar_na")
+    nrn.h("access soma")
+
+    available_mechanisms = sorted(available_mechanisms)
+    #print available_mechanisms
+    #print all_parameters_non_global_c
+    #print neuron_types
     all_parameters_non_global_c_d = {}
-    for m in available_mechanisms:
-        all_parameters_non_global_c_d[m] = []
-    for p in all_parameters_non_global_c:
-        ind = p.find('_') + 1
-        all_parameters_non_global_c_d[p[ind:]].append(p)
-    all_parameters_non_global_c = []
-    for k, v in all_parameters_non_global_c_d.iteritems():
-        all_parameters_non_global_c.append(v)
+#    for m in available_mechanisms:
+#        all_parameters_non_global_c_d[m] = []
+#    for p in all_parameters_non_global_c:
+#        ind = p.find('_') + 1
+#        all_parameters_non_global_c_d[p[ind:]].append(p)
+#    all_parameters_non_global_c = []
+#    for k, v in all_parameters_non_global_c_d.iteritems():
+#        all_parameters_non_global_c.append(v)
     neuron_sc = [list(i) for i in neuron_sc]
     reversals = []
     for i in neuron_sc:
@@ -56,7 +61,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     fn_with_topo = fn[:-4] + '_topo.hoc'
     fn_with_param = fn[:-4] + '_param.hoc'
     file_sep = '/'
-    fn_param_m = base_p + file_sep + '..' + file_sep + '..' + file_sep + 'Neuron' + file_sep + 'printCell' + file_sep + 'Amit' + file_sep + 'output' + file_sep + 'ParamM.dat'
+    fn_param_m = base_p + file_sep + '..' + file_sep + '..' + file_sep + 'Data2' + file_sep+ 'ParamM.dat'
     fn_mat = base_p + file_sep + '..' + file_sep + '..' + file_sep + 'Neuron' + file_sep + 'printCell' + file_sep + 'Amit' + file_sep + 'output' + file_sep + 'Mat.dat'
     lines = get_lines(fn_with_topo)
     add_line_i = np.where(np.array(['End point processess mechanisms output' in i for i in lines]))[0]
@@ -125,6 +130,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     funcs_index = len(added_lines)
     added_lines.append('proc printParams(){')
     added_lines.append('fn.wopen("' + fn_param_m + '")')
+
     added_lines.append('writeReversals()')
     added_lines.append('writeGGlobals()')
     added_lines.append('writeNGlobals()')
@@ -146,7 +152,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
             added_lines.append(func_name)
             funcs.append('proc ' + func_name + '{')
         F = []
-        for i in available_mechanisms:
+        for i in sorted(available_mechanisms):
             F.append(i in comp_mechanisms[c - 1])
         F = np.where(np.array(F))
         funcs.append('access ' + comp_names[c - 1][1:])
@@ -180,7 +186,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     out_lines.extend(added_lines)
     out_lines.extend([lines[i] for i in range(int(add_line_i[0]) + 1, len(lines))])
     # put_lines(fn_with_param, out_lines)
-
+    #print '\n'.join(out_lines)
     runModel_hoc_object = nrn.hoc.HocObject()
     runModel_hoc_object.execute('~' + '\n'.join(out_lines))
     # runModel_hoc_object.load_file(1, fn_with_param)
@@ -197,6 +203,10 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     all_params = np.zeros((n_sets[0], len(comp_names) * int(param_start_i[-1])))
 
     first_param_m = None
+    #print str(comp_mechanisms)
+    #print len(comp_mechanisms)
+    aaa = [len(a) for a in comp_mechanisms]
+    #print str(aaa)
     for kk in range(1, n_sets[0] + 1):
         param_m = np.zeros((len(comp_names), int(param_start_i[-1])))
         for c in range(1, len(comp_names) + 1):
@@ -204,20 +214,31 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
             comp_ind = get_comp_index(neuron_types, comp_name[1:])
             comp_topology_map[c - 1] = comp_ind
             F = []
-            for i in available_mechanisms:
+            for i in sorted(available_mechanisms):
                 F.append(i in comp_mechanisms[c - 1])
             F = np.where(np.array(F))
-            for m in range(1, F[0].size + 1):
+            #print comp_name
+            #print str(F[0])
+            for m in range(1, F[0].size+1):
                 cur_mech_params = all_parameters_non_global_c[F[0][m - 1]]
+                #print comp_name + str(cur_mech_params)
                 for p in range(1, len(cur_mech_params) + 1):
                     Tmp = np.fromfile(f, dtype=np.float64, count=1)
-                    param_m[[i - 1 for i in comp_ind], int(param_start_i[F[0][m - 1]] + p - 1)] = Tmp
+                    #print str(i) + "," +str( int(param_start_i[F[0][m -1]]+p-1)) + comp_name  
+                    #print str(Tmp)
+                    param_m[[i - 1 for i in comp_ind], int(param_start_i[F[0][m - 1]] + p - 1)]  = Tmp
+        #print "********************"
+        #.print comp_names
+        #print comp_mechanisms
+        #print sorted(available_mechanisms)
+        #print param_m[2]
         tmp = param_m.flatten(order='F')
         all_params[kk - 1,:] = tmp
         if kk == 1:
             first_param_m = param_m # Store only the first param_m for templating purposes
         param_m = None
-    print param_m
+    #print param_m
+    
     all_params = all_params.reshape((all_params.shape[0] * all_params.shape[1],))
     f.close()
     f = open('../../Data2/AllParams.csv', 'w')
@@ -236,7 +257,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     f = open('../../Data2/ParamsM.csv', 'w')
     first_param_m_s = StringIO()
     np.savetxt(first_param_m_s, first_param_m.reshape((first_param_m.shape[0] * first_param_m.shape[1],)),
-        fmt='%5.f', newline=',')
+        fmt='%f', newline=',')
     first_param_m_st = first_param_m_s.getvalue()
     f.write('%s\n' % first_param_m_st)
     f.close()

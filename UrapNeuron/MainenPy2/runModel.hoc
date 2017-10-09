@@ -12,11 +12,11 @@ timesFile = "./times.dat"
 paramsFile = "./params/orig.dat"
 stimFile = "./Stims/stepsmall.dat"
 outFile = "./volts/orig_step.dat"
-ntimestep =3176
+ntimestep =3168
 nparams =12
 
 psize =1
-ntraces =2
+ntraces =1
 create Exts[1]
 objref st,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,most
 load_file(modelFile)
@@ -217,10 +217,10 @@ readMatrix(stimFile,stims)
 forsec "dend" nseg=1
 forsec "apic" nseg=1
 	
-//topology()
+topology()
 countExts()
 fcurrent()
-//fmatrix()
+fmatrix()
 printf("Creating Exts %d\n",ext_num)
 printf("Creating Exts %d\n",ext_num)
 if(ext_num>0){
@@ -235,6 +235,7 @@ forall{nseg=1}
 hinesDisperseBranching()
 
 mul32()
+access iseg 
 access soma
 transvec = pmat.getrow(0)
 tfunc()
@@ -246,5 +247,4 @@ finitialize(v_init)
 //writeMatrix(outFile,matOut)
 finitialize(v_init)
 //ADD STUFF HERE
-
 //quit()

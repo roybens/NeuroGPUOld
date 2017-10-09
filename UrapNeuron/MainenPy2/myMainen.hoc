@@ -161,6 +161,7 @@ insert km    gbar_km  = gkm_dend
     //vshift_ca = 0
   }
   finitialize(v_init)
+print "done with init_cell"
 }
 
 

@@ -1,0 +1,1 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(293,5): error MSB3501: Could not read lines from file "x64\Debug\NeuroGPU6.tlog\NeuroGPU6.lastbuildstate". Access to the path 'C:\Users\bensr\AppData\Local\lxss\home\roybens\tneuorGPU\NeuroGPU\VS\pyNeuroGPU\NeuroGPU6\x64\Debug\NeuroGPU6.tlog\NeuroGPU6.lastbuildstate' is denied.
