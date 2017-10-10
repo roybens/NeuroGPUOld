@@ -13,7 +13,8 @@ import numpy.matlib
 from file_io import get_lines, put_lines
 from proc_add_param_to_hoc_for_opt import proc_add_param_to_hoc_for_opt
 import scipy.io as sio
-
+import shutil
+import glob
 from cStringIO import StringIO
 from nrn_structs import *
 from create_auxilliary_data_3 import create_auxilliary_data_3
@@ -23,7 +24,10 @@ ParsedModel = collections.namedtuple('ParsedModel', 'Writes,Reads')
 ModNeuron = collections.namedtuple('ModNeuron', 'Suffix,UseIon,NonspecificCurrent,Reads,Writes,Range,Global')
 FTYPESTR = 'float'
 end_str = '|X|X|'
-vs_dir = '../../VS/pyNeuroGPU/NeuroGPU6'
+vs_dir = '../../VS/pyNeuroGPU_win/NeuroGPU6'
+vs_root = '../../VS/pyNeuroGPU_win/'
+run_dir = '/mnt/c/pyNeuroGPU_win'
+data_dir = '../../Data2/'
 has_f = 0
 ND, NRHS = None, None
 global sec_list
@@ -2121,6 +2125,28 @@ def add_params_to_func_call(input,func_names,input_vars_c,all_param_line_call):
             curr_line = new_curr_line
         out[i] = curr_line
     return out
+def runPyNeuroGPU():
+    if(os.path.exists(run_dir)):
+        shutil.rmtree(run_dir)
+    print vs_root
+    print run_dir
+    shutil.copytree(vs_root, run_dir)
+    if(os.path.exists(run_dir+"/Data")):
+        shutil.rmtree(run_dir+"/Data")    
+    os.makedirs(run_dir +"/Data")
+    temp = data_dir+ 'BasicConst*.csv'
+    print temp
+    for file in glob.glob(temp):
+        print(file)
+        shutil.copy(file,run_dir +"/Data/")
+    shutil.copy(data_dir+'AllParams.csv',run_dir +"/Data/")
+    shutil.copy(data_dir+'Sim.dat',run_dir +"/Data/")
+    shutil.copy(data_dir+'Stim.dat',run_dir +"/Data/")
+    shutil.copy(data_dir+'StimF.dat',run_dir +"/Data/")
+    shutil.copy(data_dir+'try.bat',run_dir)
+    os.system('/mnt/c/Windows/System32/cmd.exe  /c "C://pyNeuroGPU_win//try.bat"')
+
+
 
 
 
@@ -2138,7 +2164,7 @@ def main():
     # mod_file_map = get_mod_file_map(topo_mdl.available_mechs) # dictionary whose keys are mechanisms suffixs and values are their .mod file name=
     mechanisms = parse_models(thread)
     #def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu,params_m, n_segs_mat, cm_vec, vs_dir, has_f, nd, nrhs):
-
+    runPyNeuroGPU()
 
 if __name__ == '__main__':
     main()

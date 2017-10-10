@@ -1,0 +1,206 @@
+﻿  Compiling CUDA source file CudaStuff.cu...
+  Compiling CUDA source file Util.cu...
+  Compiling CUDA source file MainC.cu...
+  Compiling CUDA source file kernel.cu...
+  
+  C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env --cl-version 2015 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -rdc=true -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MDd " -o x64\Debug\CudaStuff.cu.obj "C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6\CudaStuff.cu" 
+  
+  C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env --cl-version 2015 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -rdc=true -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MDd " -o x64\Debug\Util.cu.obj "C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6\Util.cu" 
+  
+  C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env --cl-version 2015 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -rdc=true -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MDd " -o x64\Debug\MainC.cu.obj "C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6\MainC.cu" 
+  
+  C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env --cl-version 2015 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -rdc=true -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g  -use_fast_math -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MDd " -o x64\Debug\kernel.cu.obj "C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6\kernel.cu" 
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(134): warning : variable "fdebug2" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(262): warning : expression has no effect
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(296): warning : declaration does not declare anything
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "mtau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "hinf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "minf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "htau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(307): warning : declaration does not declare anything
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(306): warning : variable "gca" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "gca" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(324): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(324): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(335): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(335): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "mtau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "hinf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "minf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "htau" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(184): warning : variable "CurLevel" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(659): warning : function "syncthreads"
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(690): warning : function "syncthreads"
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(345): warning : variable "StimID" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(394): warning : variable "isModel_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/MainC.cu(303): warning : variable "len" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(394): warning : variable "dVec_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(395): warning : variable "isModel_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(395): warning : variable "dVec_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(396): warning : variable "isModel_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(396): warning : variable "dVec_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(397): warning : variable "isModel_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(397): warning : variable "dVec_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(398): warning : variable "isModel_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(398): warning : variable "dVec_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(399): warning : variable "isModel_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(399): warning : variable "dVec_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(400): warning : variable "isModel_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(400): warning : variable "dVec_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(401): warning : variable "isModel_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(401): warning : variable "dVec_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(402): warning : variable "isModel_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(402): warning : variable "dVec_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(403): warning : variable "isModel_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(403): warning : variable "dVec_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(404): warning : variable "isModel_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(404): warning : variable "dVec_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(405): warning : variable "isModel_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(405): warning : variable "dVec_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(423): warning : variable "SonNo_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(424): warning : variable "SonNo_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(425): warning : variable "SonNo_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(426): warning : variable "SonNo_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(427): warning : variable "SonNo_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(428): warning : variable "SonNo_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(429): warning : variable "SonNo_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(430): warning : variable "SonNo_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(431): warning : variable "SonNo_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(432): warning : variable "SonNo_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(433): warning : variable "SonNo_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(434): warning : variable "SonNo_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(781): warning : variable "SMemVHot" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(781): warning : variable "amps" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(813): warning : variable "tmp" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(798): warning : variable "FileName" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(1134): warning : expression has no effect
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "i" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "j" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "t" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning : variable "uHPOut_d" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning : variable "bHPOut_d" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(134): warning : variable "fdebug2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/MainC.cu(303): warning : variable "len" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(262): warning : expression has no effect
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(296): warning : declaration does not declare anything
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "mtau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "hinf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "minf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(295): warning : variable "htau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(307): warning : declaration does not declare anything
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(306): warning : variable "gca" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "gca" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(313): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(324): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(324): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(335): warning : variable "ntau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(335): warning : variable "ninf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "mtau" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "hinf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "minf" was declared but never referenced
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(346): warning : variable "htau" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(184): warning : variable "CurLevel" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(345): warning : variable "StimID" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(394): warning : variable "isModel_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(394): warning : variable "dVec_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(395): warning : variable "isModel_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(395): warning : variable "dVec_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(396): warning : variable "isModel_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(396): warning : variable "dVec_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(397): warning : variable "isModel_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(397): warning : variable "dVec_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(398): warning : variable "isModel_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(398): warning : variable "dVec_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(399): warning : variable "isModel_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(399): warning : variable "dVec_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(400): warning : variable "isModel_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(400): warning : variable "dVec_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(401): warning : variable "isModel_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(401): warning : variable "dVec_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(402): warning : variable "isModel_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(402): warning : variable "dVec_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(403): warning : variable "isModel_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(403): warning : variable "dVec_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(404): warning : variable "isModel_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(404): warning : variable "dVec_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(405): warning : variable "isModel_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(405): warning : variable "dVec_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(423): warning : variable "SonNo_1" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(424): warning : variable "SonNo_2" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(425): warning : variable "SonNo_3" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(426): warning : variable "SonNo_4" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(427): warning : variable "SonNo_5" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(428): warning : variable "SonNo_6" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(429): warning : variable "SonNo_7" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(430): warning : variable "SonNo_8" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(431): warning : variable "SonNo_9" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(432): warning : variable "SonNo_10" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(433): warning : variable "SonNo_11" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(434): warning : variable "SonNo_12" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(781): warning : variable "SMemVHot" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(781): warning : variable "amps" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(813): warning : variable "tmp" is used before its value is set
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(798): warning : variable "FileName" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(1134): warning : expression has no effect
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "i" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "j" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning : variable "t" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning : variable "uHPOut_d" was declared but never referenced
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning : variable "bHPOut_d" was declared but never referenced
+  Util.cu
+  kernel.cu
+  MainC.cu
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(92): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(134): warning C4101: 'fdebug2': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(230): warning C4305: '=': truncation from 'double' to 'float'
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(287): warning C4244: 'initializing': conversion from 'float' to 'unsigned short', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(340): warning C4473: 'printf' : not enough arguments passed for format string
+  C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(340): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/Util.cu(340): note: the missing variadic argument 2 is required by format string '%d'
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/MainC.cu(442): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'std::size_t'
+  C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/MainC.cu(442): note: consider using '%zd' in the format string
+  CudaStuff.cu
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\AllModels.cu(77): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(798): warning C4101: 'FileName': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(840): warning C4244: 'initializing': conversion from 'float' to 'unsigned short', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(878): warning C4244: 'argument': conversion from 'float' to 'std::size_t', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(933): warning C4244: 'argument': conversion from 'float' to 'std::size_t', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(1079): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(1079): warning C4244: '=': conversion from 'float' to 'unsigned short', possible loss of data
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(1134): warning C4553: '==': operator has no effect; did you intend '='?
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning C4101: 'uHPOut_d': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning C4101: 'j': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning C4101: 'i': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(846): warning C4101: 'bHPOut_d': unreferenced local variable
+C:/Users/bensr/Documents/pyNeuroGPU_win/NeuroGPU6/CudaStuff.cu(843): warning C4101: 't': unreferenced local variable
+c:\users\bensr\documents\pyneurogpu_win\neurogpu6\cudastuff.cu(813): warning C4700: uninitialized local variable 'tmp' used
+  
+  C:\Users\bensr\Documents\pyNeuroGPU_win\NeuroGPU6>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -dlink -o x64\Debug\NeuroGPU6.device-link.obj -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MDd " -L"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\lib\x64" -L"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\lib\x64" "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\lib\x64\cusparse.lib" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  -gencode=arch=compute_35,code=sm_35 -G --machine 64 x64\Debug\CudaStuff.cu.obj x64\Debug\kernel.cu.obj x64\Debug\MainC.cu.obj x64\Debug\Util.cu.obj 
+  cusparse.lib
+  cudart.lib
+  kernel32.lib
+  user32.lib
+  gdi32.lib
+  winspool.lib
+  comdlg32.lib
+  advapi32.lib
+  shell32.lib
+  ole32.lib
+  oleaut32.lib
+  uuid.lib
+  odbc32.lib
+  odbccp32.lib
+  CudaStuff.cu.obj
+  kernel.cu.obj
+  MainC.cu.obj
+  Util.cu.obj
+  NeuroGPU6.vcxproj -> C:\Users\bensr\Documents\pyNeuroGPU_win\x64\Debug\NeuroGPU6.exe
+  NeuroGPU6.vcxproj -> C:\Users\bensr\Documents\pyNeuroGPU_win\x64\Debug\NeuroGPU6.pdb (Full PDB)
+  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart*.dll" "C:\Users\bensr\Documents\pyNeuroGPU_win\x64\Debug\"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart32_80.dll
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart64_80.dll
+          2 file(s) copied.
