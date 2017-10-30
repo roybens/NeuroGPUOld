@@ -8,13 +8,15 @@ import os
 import copy
 import numpy as np
 import re
+import subprocess
 import csv
+import shutil
+import glob
 import numpy.matlib
 from file_io import get_lines, put_lines
 from proc_add_param_to_hoc_for_opt import proc_add_param_to_hoc_for_opt
 import scipy.io as sio
-import shutil
-import glob
+
 from cStringIO import StringIO
 from nrn_structs import *
 from create_auxilliary_data_3 import create_auxilliary_data_3
@@ -26,7 +28,7 @@ FTYPESTR = 'float'
 end_str = '|X|X|'
 vs_dir = '../../VS/pyNeuroGPU_win/NeuroGPU6'
 vs_root = '../../VS/pyNeuroGPU_win/'
-run_dir = '/mnt/c/pyNeuroGPU_win'
+run_dir = 'C:/pyNeuroGPU_win'
 data_dir = '../../Data2/'
 has_f = 0
 ND, NRHS = None, None
@@ -40,8 +42,8 @@ C_SUFFIX='.c'
 modelFile = "./runModel.hoc"
 base_p = "./"
 ftypestr = 'float'
-p_size_set = 1
-param_set = 'orig.dat'
+p_size_set = 120
+param_set = './params/001_120s1_pin.dat'
 
 ### Helper functions for loading NEURON C library ###
 
@@ -97,6 +99,19 @@ def get_parent_seg(thread):
         x = thread.contents._v_parent_index[i]
        # print i, x
         parent.append(x)
+    return parent
+	
+def get_parent_seg1():
+    nrn.h("MyTopology2()")
+    parent = []
+    ax='./parent.txt'
+    with open(ax,'r') as bx:
+	    cx = bx.read().replace('\n','')   
+    parent = cx.split()
+    #parent.insert(0,"0")
+    #parent = parent[0:-1]   
+    parent = [int(i) for i in parent]
+    #print parent
     return parent
 
 def get_topo_f_matrix(thread):
@@ -276,14 +291,13 @@ def get_bool_model(available_mechs,NX,comp_mechs,comp_map,seg_start,seg_end):
             for i in range(seg_start[comp],seg_end[comp]):
                 curr_bool_list[i] = curr_bool
         curr_bool_list[0] = 0
-        #curr_bool_list.append(0)
         bool_model.append(curr_bool_list)
     return bool_model
 
 
 ### Functions for Parsing Mod/C files ###
 
-def parse_models(thread):
+def parse_models():
     global StateStartVal
     c_parsed_folder = './CParsed/'
     model_name=[]
@@ -316,7 +330,7 @@ def parse_models(thread):
         mod_files.remove('pasx.mod')
     for  i in range(len(mod_files)):
         mod_f = mod_files[i]
-        #print 'parsing ' + mod_f
+        print 'parsing ' + mod_f
         lines_list.append(file_to_list_no_comments(mod_f))
        # print 'parsing ' + mod_f + 'i is ' + repr(i)
         output = parse_model(lines_list[i])
@@ -387,7 +401,7 @@ def parse_models(thread):
     call_to_break_list= []
     call_to_break_dv_list= []
     for i in range(len(lines_list)):
-        #print 'parsing ' + model_name[i]
+        print 'parsing ' + model_name[i]
         output = parse_model2(mod_files[i],lines_list[i],globals[i],all_state_line[i],all_state_line_seg[i],model_name[i],only_reads_no_reversals[i],write_no_currents[i],all_reads_no_reversals,writes[i],all_assigned[i],all_states[i],reads[i],gs[i],ranges[i],non_spec_curr[i],ions_c[i],reversals[i],write_no_currents[i],all_writes,extra_states_trg)
         #return [proc_names,func_names,all_params,global_inds,not_global_inds,all_params_line,proc_declare,proc_declare_cu,c_func_lines,c_func_lines_cu,c_init_lines,c_init_lines_cu,c_proc_lines,c_proc_lines_cu,c_deriv_lines,c_deriv_lines_cu,c_break_lines,c_break_lines_cu,break_point_declare,deriv_declare,init_declare]
         proc_names = output[0]
@@ -504,11 +518,14 @@ def parse_models(thread):
     cs_names = []
     for s in nrn.h.allsec():
         cs_names.append(nrn.h.secname())
-    #print cs_names
+    
+	#print cs_names
     #print available_mechs
     params_m, runModel_hoc_object = proc_add_param_to_hoc_for_opt(all_params_non_global_list_non_flat, modelFile, base_p, available_mechs, reversals,reversals, cs_names, comp_mechs, g_globals, nglobals_flat, sec_list, ftypestr,p_size_set, param_set)
+	
+	#subprocess.call("matlab -nosplash -nodisplay -nodesktop -r \"ProcAddParamToHocForOpt()\"",shell=True);
+    #subprocess.call('matlab -nosplash -nodisplay -nodesktop -r \"ProcAddParamToHocForOpt(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)\"' % (all_params_non_global_flat, modelFile, base_p, available_mechs, reversals,reversals, cs_names, comp_mechs, g_globals, nglobals_flat, sec_list, ftypestr,p_size_set, param_set),shell=True);
     output = write_all_models_cpp(c_parsed_folder,list(all_reversals),actual_reversals,all_writes,all_locals,all_currents,nglobals_flat,neuron_globals_vals,c_init_lines_list,c_proc_lines_list,c_deriv_lines_list,c_break_lines_list,proc_declare_list,c_func_lines_list)
-
     output = write_all_models_cu(c_parsed_folder, list(all_reversals), actual_reversals, g_globals, actual_gglobals,nglobals_flat,neuron_globals_vals,c_param_lines_list, c_init_lines_cu_list, c_proc_lines_cu_list, c_deriv_lines_cu_list, c_break_lines_cu_list,proc_declare_cu_list, c_func_lines_cu_list)
     output = write_all_models_h(c_parsed_folder, n_total_states, n_params, g_globals, actual_gglobals, break_point_declare_list, deriv_declare_list, init_declare_list, call_to_init_list, call_to_deriv_list, call_to_break_list, call_to_break_dv_list)
     #return [call_to_init_str,call_to_deriv_str,call_to_break_str,call_to_break_dv_str]
@@ -523,12 +540,9 @@ def parse_models(thread):
     call_to_break_dv_str_cu = output[3]
     output = get_topo()
     n_segs = output[0]
-    #print "printing nsegs"
-    #print n_segs
     n_segs_mat = [x + 1 for x in n_segs]
     n_segs_mat[0] = n_segs_mat[0] + 1
     cm_tmp = output[1]
-    #print n_segs_mat
     cm = []
 
     for i in range(len(n_segs)):
@@ -553,15 +567,10 @@ def parse_models(thread):
 
     available_mechs = list(available_mechs)
     available_mechs.sort()
-    #print  available_mechs
-    #print comp_map
-    #print seg_start
-    #print seg_end
-    
     bool_model = get_bool_model(available_mechs,NX,comp_mechs,comp_map,seg_start,seg_end)
     rot_mat = np.rot90(mat,2)
     n_segs_mat_flipped  = np.flipud(np.array(n_segs_mat))
-    parent_seg =  get_parent_seg(thread)
+    parent_seg =  get_parent_seg1()
     parent_seg = [x+1 for x in parent_seg]
     parent_seg[0] = 0
     output = create_auxilliary_data_3(rot_mat, NX,n_segs_mat_flipped, rev_parent, cm,parent_seg,bool_model,seg_start,n_segs,seg_to_comp)
@@ -575,12 +584,13 @@ def parse_models(thread):
     output = write_all_models_cuh(c_parsed_folder, n_total_states, NX,aux,bool_model,n_params, c_init_lines_cu_list, c_proc_lines_cu_list, c_deriv_lines_cu_list, c_break_lines_cu_list,''.join(call_to_init_list),''.join(call_to_deriv_list),''.join(call_to_break_list),''.join(call_to_break_dv_list))
 
     #(c_parsed_folder,NX,aux,bool_model,n_params,c_init_lines_cu,c_proc_lines_cu,c_deriv_lines_cu,c_break_lines_cu):
-    tail_end(open('CParsed/AllModels.h', 'a'), n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu,params_m, n_segs_mat, cm_vec, vs_dir, has_f, ND, NRHS, tmp_file_name)
+    tail_end(open('CParsed/AllModels.cuh', 'a'), n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu,params_m, n_segs_mat, cm_vec, vs_dir, has_f, ND, NRHS, tmp_file_name)
     return [n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu, params_m, n_segs_mat, cm_vec, vs_dir, has_f, ND, NRHS]
 def get_matrix(FN,parent,seg_start,last_seg):
     FN = '../../Neuron/printCell/Amit/output/Mat.dat'
     data = open(FN).read()
     lines = data.split('\n')
+    #print lines
     lines = lines[1:-1]
     NX = len(lines)
     table = []
@@ -588,7 +598,6 @@ def get_matrix(FN,parent,seg_start,last_seg):
         tmp = line.strip().split(' ')
         table.append([x.replace('1.#INF00000000000',str(1e23)) for x in tmp[1:]])
     #table = table[1:]
-    #print table
     mat = [[0 for x in range(NX-1)] for y in range(NX-1)]
     tmp = lines[0].split(' ')
     mat[0][0] = float(table[0][2])
@@ -617,13 +626,13 @@ def get_matrix(FN,parent,seg_start,last_seg):
             mat[mat_ind-1][mat_ind] = float(0)
             mat[mat_ind][parent_ind] = float(table[mat_ind][0])
             mat[parent_ind][mat_ind] = float(table[mat_ind][1])
-    with open("output.csv", "wb") as f:
-        writer = csv.writer(f)
-        writer.writerows(mat)
+    # with open("output.csv", "wb") as f:
+        # writer = csv.writer(f)
+        # writer.writerows(mat)
     return mat
 
 def write_all_models_cuh(c_parsed_folder,n_total_states,NX,aux,bool_model,n_params,c_init_lines_cu,c_proc_lines_cu,c_deriv_lines_cu,c_break_lines_cu,call_to_init,call_to_deriv,call_to_break,call_to_break_dv):
-    FN = c_parsed_folder + 'AllModels.h'
+    FN = c_parsed_folder + 'AllModels.cuh'
     f = open(FN, 'w')
     f.write('// Automatically generated CUH for ' + os.getcwd() + modelFile + '\n')
     f.write('\n#ifndef __' 'ALLMODELSCU' '__\n#define __' 'ALLMODELSCU' '__\n#include "Util.h"\n\n')
@@ -763,6 +772,10 @@ def set_states_for_cuh(f, n_basic_states, n_extra_states):
     f.write('\n\n#define    SET_STATES(VARILP) ' + state_set_str + '; \n')
 
 def expand_ilp_macros(file_name, other_file_names, ilpn, out_file_name):
+    print file_name
+    print other_file_names
+    print ilpn
+    print out_file_name
     lines = get_lines(file_name)
     all_lines = list(lines)
     for fn in other_file_names:
@@ -778,7 +791,12 @@ def expand_ilp_macros(file_name, other_file_names, ilpn, out_file_name):
     all_in_macros = list(set(matches) - set(['x']))
     for i in range(1, len(all_in_macros) + 1):
         curr_line_i_tmp = [1 if re.search('#define.*' + all_in_macros[i - 1], line) else 0 for line in all_lines]
+        print 'tmp'
+        print curr_line_i_tmp
+        print len(curr_line_i_tmp)
         curr_line_i = curr_line_i_tmp.index(filter(lambda x: x != 0, curr_line_i_tmp)[0])
+        print curr_line_i
+
         #I changed her cur_line to curr_line Maybe it was wrong
         curr_line = all_lines[curr_line_i]
         base_command = curr_line[curr_line.find('VARILP)') + 8:]
@@ -814,10 +832,11 @@ def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_bre
     f.write('\n#endif')
     f.close()
 
-    #print 'Finished writing AllModels.h,cpp,cu,cuh'
+    print 'Finished writing AllModels.h,cpp,cu,cuh'
 
     params_m_per_seg = []
     params_m = np.array(params_m)
+	
     n_segs_mat = np.array(n_segs_mat)
     for i in range(1, params_m.shape[0] + 1):
         temp = np.matlib.repmat(params_m[i - 1,:], n_segs_mat[i - 1], 1);
@@ -829,7 +848,6 @@ def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_bre
     all_segs = np.sum(n_segs_mat)
     if np.floor(all_segs / 32) != all_segs / 32:
         print 'we have a non 32 multiple number of segs'
-
     nilp = all_segs / 32
     tmp = np.array(get_lines(vs_dir + '/CudaStuffBase.cu'))
     set_params_line_i = np.where(np.array(['SET_PARAMS' in i for i in tmp]))
@@ -838,13 +856,11 @@ def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_bre
         tmp3 = tmp[:set_params_line_i[-1]] + tmp2 + tmp[set_params_line_i[-1] + 1:]
     else:
         tmp3 = tmp
-
     put_lines(vs_dir + '/CudaStuffBasex.cu', tmp3)
-    expand_ilp_macros(vs_dir + '/CudaStuffBasex.cu', [vs_dir + '/AllModels.cuh'], nilp, vs_dir + '/CudaStuff.cu')
+    expand_ilp_macros(vs_dir + '/CudaStuffBasex.cu', [vs_dir + '/AllModels.cuh'], nilp, vs_dir + '/CudaStuff.cu')#for some reason it was using allmodels.cuh which we should not anymore
     params_m_mat = sio.loadmat('../../Data/ParamsMForC.mat')
     params_m_mat['param_m'] = params_m.astype(float)
     sio.savemat('../../Data/ParamsMForC.mat', params_m_mat)
-
     if has_f:
         fn = '../../Data/rhsFromNeuron.dat'
         f = open(fn, 'w')
@@ -1499,7 +1515,7 @@ def handle_deriv_block(mod_fn,lines,model_name,states_params_str,states,locals,a
     tmp_lines = [re.sub("'",'_d',s)+';' for s in lines ]
     add_deriv_lines = [s + '+=' + s + '_d*dt;' for s in states]
 
-    c_file = './x86_64/' + mod_fn[:-4]+ C_SUFFIX
+    c_file = './' + mod_fn[:-4]+ C_SUFFIX
     with open(c_file) as f:
         lines_c = f.read().splitlines()
     c_start_line =   index_containing_substring(lines_c,'static int states (')
@@ -1625,8 +1641,8 @@ def handle_breakpoint_block(mod_fn,lines,model_name,states_params_str,ranges,all
             z_str = '2.'
 
         nernst_line.append(read_reversal[0] + ' = nernst(' + i_str + ',' + o_str  + ' ,' + z_str + ');' )
-        #for now removing nenrnst
-        nernst_line = []
+    #for now removing nenrnst
+    nernst_line = []
     c_break_lines = first_line + ''.join(nernst_line+tmp_lines[:-1]) + before_last_line + before_last_line2 + tmp_lines[-1]
     c_break_lines_cu = first_line + ''.join(re.sub('nernst','Cunernst',''.join(nernst_line))) + second_line + third_line+ ''.join(tmp_lines[:-1]) + before_last_line + before_last_line2 + tmp_lines[-1]
     c_break_lines = [s +';' for s in c_break_lines.split(';')]
@@ -2125,9 +2141,10 @@ def add_params_to_func_call(input,func_names,input_vars_c,all_param_line_call):
             curr_line = new_curr_line
         out[i] = curr_line
     return out
+
 def runPyNeuroGPU():
     if(os.path.exists(run_dir)):
-        shutil.rmtree(run_dir)
+        shutil.rmtree(run_dir + '/')
     print vs_root
     print run_dir
     shutil.copytree(vs_root, run_dir)
@@ -2144,25 +2161,21 @@ def runPyNeuroGPU():
     shutil.copy(data_dir+'Stim.dat',run_dir +"/Data/")
     shutil.copy(data_dir+'StimF.dat',run_dir +"/Data/")
     shutil.copy(data_dir+'try.bat',run_dir)
-    os.system('/mnt/c/Windows/System32/cmd.exe  /c "C://pyNeuroGPU_win//try.bat"')
-
-
-
 
 
 def main():
     global sec_list
     nrn.h.load_file(1, modelFile)
-    thread = nrn_dll_sym('nrn_threads', ctypes.POINTER(NrnThread))
+    #thread = nrn_dll_sym('nrn_threads', ctypes.POINTER(NrnThread))
     sec_list = create_sec_list()
-    #print sec_list
     #topo = get_topo()  # dictionary whose keys are section names
     #output = get_topo_mdl()  # dictionary whose keys are section names, and available mechanisms
     #topo_mdl = output[0]
 
     #recsites = get_recsites()  # list of section names
     # mod_file_map = get_mod_file_map(topo_mdl.available_mechs) # dictionary whose keys are mechanisms suffixs and values are their .mod file name=
-    mechanisms = parse_models(thread)
+    mechanisms = parse_models()
+
     #def tail_end(f, n_params, call_to_init_str_cu, call_to_deriv_str_cu, call_to_break_str_cu, call_to_break_dv_str_cu,params_m, n_segs_mat, cm_vec, vs_dir, has_f, nd, nrhs):
     runPyNeuroGPU()
 

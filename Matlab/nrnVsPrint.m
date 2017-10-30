@@ -6,8 +6,8 @@ model = 'Markov2st';
 [NV,err] =nrn_mread(FN,inf);
 NeuronsVs = reshape(NV,ntimestep,stimSize);
 ntimestep=3168;
-figure (234)
-plot(NeuronsVs);
+%figure (234)
+%plot(NeuronsVs);
 
 stimSize =1;
 psize = 1;
@@ -20,8 +20,8 @@ currData = squeeze(data(1,:,:))';
 VoltsFolder = fullfile(OptP, 'UrapNeuron',model,'Volts');
 TimeFN = [VoltsFolder,'/times.dat'];
 times = cumsum(nrn_mread(TimeFN,inf)');
-figure(24)
-plot(times(2:end),NeuronsVs(2:end,:));
+%figure(24)
+%plot(times(2:end),NeuronsVs(2:end,:));
 figure(235)
 plot(times(2:end),currData(2:end,:))
 

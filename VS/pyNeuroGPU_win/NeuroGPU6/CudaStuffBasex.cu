@@ -496,26 +496,7 @@ void ReadParamsMatX(const char* FN,MYFTYPE* ParamsM,MYDTYPE NParams,MYDTYPE Nx) 
 	fread(ParamsM, sizeof(MYFTYPE), Nx*NParams, fl);
 	fclose(fl);
 }
-MYFTYPE* ReadAllParams(const char* FN, MYDTYPE NParams, MYDTYPE Nx, MYDTYPE  &ntemp) {
-	char FileName[300];
-	//sprintf(FileName,"%s%d.mat",FN,MUL32*32);
-	//sprintf(FileName,"%sForC.mat",FN);
-	MYFTYPE* ans;
-	MYDTYPE tmp;
-	FILE *fl = fopen(FN, "r"); // YYY add FILE*
-	if (!fl) {
-		printf("Failed to read allparmas.csv\n");
-		return nullptr;
-	}
-	char line[1009600];
-	fgets(line, sizeof(line), fl);
-	ReadShortFromCSV(line, &ntemp, 1);
-	fgets(line, sizeof(line), fl);
-	ans = (MYFTYPE *)malloc(Nx * NPARAMS * ntemp * sizeof(MYFTYPE));
-	ReadFloatFromCSV(line, ans, tmp*Nx*NParams);
-	fclose(fl);
-	return ans;
-}
+
 void ReadParamsMat(const char* FN,MYFTYPE** ParamsM,MYDTYPE NParams,MYDTYPE Nx) {
 	char FileName[300];
 	//sprintf(FileName,"%s%d.mat",FN,MUL32*32);
@@ -536,7 +517,7 @@ void ReadParamsMat(const char* FN,MYFTYPE** ParamsM,MYDTYPE NParams,MYDTYPE Nx) 
 cudaError_t stEfork2TimeLoopGPU(Stim stim, Sim sim, MYFTYPE* ParamsM, HMat& InMat, MYFTYPE* V,MYDTYPE CompDepth,MYDTYPE CompFDepth,MYDTYPE NSets) { 
 
 	cudaError_t cudaStatus;
-	cudaStatus = cudaSetDevice(0);
+	cudaStatus = cudaSetDevice(1);
 	cudaStatus = cudaDeviceReset();
 	MYFTYPE *VHotsGlobal,*VHotsHost;
 	MYDTYPE Nt=stim.Nt;
@@ -875,7 +856,7 @@ cudaError_t stEfork2TimeLoopGPU(Stim stim, Sim sim, MYFTYPE* ParamsM, HMat& InMa
 
 cudaError_t stEfork2Main(Stim stim, Sim sim, MYFTYPE* ParamsM, HMat& InMat, MYFTYPE* V,MYDTYPE CompDepth,MYDTYPE CompFDepth,MYDTYPE NSets) {
 	cudaError_t cudaStatus;
-	cudaStatus = cudaSetDevice(0);
+	cudaStatus = cudaSetDevice(1);
 	cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);
 	  stEfork2TimeLoopGPU(stim, sim, ParamsM, InMat, V,CompDepth,CompFDepth,NSets); //RRR sim
 	  

@@ -1,0 +1,1 @@
+-nologo -c -TP /EHsc /W3 /nologo /O2 /FS /Zi  /MD -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0/include" -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0/include" -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0/include" "-IC:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin/../include"   -EHsc "x64/Release/MainC.cu.cpp.ii" 

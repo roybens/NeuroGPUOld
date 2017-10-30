@@ -94,23 +94,23 @@ AddedLines{end+1}='transvec = pmat.getrow(ii)';
 AddedLines{end+1}='tfunc()';
 AddedLines{end+1}='finitialize()';
 procCounter = 0;
-counter =0;
+csv_counter =0;
 funcs={};
 funcName = ['proc',num2str(procCounter),'()'];
 AddedLines{end+1}= funcName;
 funcs{end+1} = ['proc ', funcName,'{'];
 for c=1:numel(CompNames)
-    if(counter>50)
+    if(csv_counter>50)
         funcs{end+1} = '}';
         procCounter = procCounter+1;
-        counter=0;
+        csv_counter=0;
         funcName = ['proc',num2str(procCounter),'()'];
         AddedLines{end+1} = funcName;
         funcs{end+1} = ['proc ', funcName,'{'];
     end
     F=find(ismember(availableMechanisms, CompMechnisms{c}));
     funcs{end+1}=['access ' CompNames{c}(2:end)];
-    counter = counter+1;
+    csv_counter = csv_counter+1;
 %     if(ismember('pas',CompMechnisms{c}))
 %         AddedLines{end+1}=['a=g_pas'];
 %         AddedLines{end+1}='fn.vwrite(&a)';
@@ -122,11 +122,11 @@ for c=1:numel(CompNames)
         for p=1:numel(CurMechParams)
             funcs{end+1}=['a=' CurMechParams{p}];
             funcs{end+1}='fn.vwrite(&a)';
-            counter = counter+2;
+            csv_counter = csv_counter+2;
         end
     end
 end
-if(counter>0)
+if(csv_counter>0)
         funcs{end+1} = '}';    
 end
 AddedLines = [AddedLines(1:funcsIndex),funcs,AddedLines(funcsIndex+1:end)];
@@ -173,6 +173,8 @@ end
 % end
 clear AllParams;
 CompTopologyMap = zeros(1,numel(CompNames));
+csv_counter = 1;
+csvParamM = [];
 for kk=1:NSets
     for c=1:numel(CompNames)
         compName = CompNames{c};
@@ -183,14 +185,20 @@ for kk=1:NSets
     %         ParamM(compInd, ParamStartI(end)+1) = fread(fid, 1, 'float64');
     %         ParamM(compInd, ParamStartI(end)+2) = fread(fid, 1, 'float64');
     %     end
+     %   display(compName)
+     %   F
         for m=1:numel(F)
             CurMechParams=AllParametersNonGlobalC{F(m)};
             for p=1:numel(CurMechParams)
                 Tmp=fread(fid, 1, 'float64');
+                csvParamM(csv_counter) = Tmp;
+                csv_counter = csv_counter+1;
                 ParamM(compInd, ParamStartI(F(m))+p) = Tmp;
+                display([num2str(compInd),',',num2str(ParamStartI(F(m))+p), compName]);
             end
         end
     end
+ 
 tmp = reshape(ParamM,size(ParamM,1)*size(ParamM,2),1);
 AllParams(:,kk) = tmp;
 ParamM=[];
@@ -198,6 +206,8 @@ end
 fclose(fid);
 AllParams = reshape(AllParams,size(AllParams,1)*size(AllParams,2),1);
 fid = fopen ('../Data/AllParams.dat','w');
+disp(NSets)
+disp(AllParams)
 fwrite(fid,NSets,'uint16');
 fwrite(fid,AllParams,FTYPESTR);
 fclose(fid);

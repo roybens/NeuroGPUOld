@@ -4,7 +4,7 @@
 IMPORT int nrnmpi_myid, nrn_nobanner_;
 
 extern void _branching_reg();
-extern void _hh2_reg();
+extern void _pasx_reg();
 
 modl_reg(){
 	//nrn_mswindll_stdio(stdin, stdout, stderr);
@@ -12,9 +12,9 @@ modl_reg(){
 	fprintf(stderr, "Additional mechanisms from files\n");
 
 fprintf(stderr," branching.mod");
-fprintf(stderr," hh2.mod");
+fprintf(stderr," pasx.mod");
 fprintf(stderr, "\n");
     }
 _branching_reg();
-_hh2_reg();
+_pasx_reg();
 }

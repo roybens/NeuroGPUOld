@@ -116,8 +116,9 @@ VERBATIM {
 #endif
 for(ii=0;ii<_nt->end;ii++){
 nd=_nt->_v_node[ii];
-printf("%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
 }
+fclose(fm);
 }
 ENDVERBATIM
 }
@@ -150,9 +151,6 @@ printf("%d,%1.15f %1.15f \n",ii,  NODED(nd), NODERHS(nd));
 ENDVERBATIM
 }
 
-
-
-
 PROCEDURE MyTopology() {
 VERBATIM {
 	int ii;
@@ -163,6 +161,79 @@ for(ii=0;ii<_nt->end;ii++){
 
 printf("%d %d\n", ii, _nt->_v_parent_index[ii]);
 }
+}
+ENDVERBATIM
+}
+
+PROCEDURE MyTopology2() {
+VERBATIM {
+	FILE * pFile;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+pFile = fopen ("parent.txt","w");
+for(ii=0;ii<_nt->end;ii++){
+
+fprintf(pFile,"%d ", _nt->_v_parent_index[ii]);
+}
+fclose (pFile);
+}
+ENDVERBATIM
+}
+
+PROCEDURE MyTopology1() {
+VERBATIM {
+	FILE * pFile;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+pFile = fopen ("64TL.csv","w");
+for(ii=0;ii<_nt->end;ii++){
+
+fprintf(pFile,"%d %d\n", ii, _nt->_v_parent_index[ii]);
+}
+fclose (pFile);
+}
+ENDVERBATIM
+}
+
+PROCEDURE MyPrintMatrix1() {
+VERBATIM {
+	Section* sec;
+	FILE* fm;
+	fm= fopen("64TL.csv", "w");
+	Node* nd;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+for(ii=0;ii<_nt->end;ii++){
+nd=_nt->_v_node[ii];
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+}
+fclose (fm);
+}
+ENDVERBATIM
+}
+
+PROCEDURE MyPrintMatrix3() {
+VERBATIM {
+	Section* sec;
+	FILE* fm;
+	fm= fopen("Fmatrix.csv", "w");
+	Node* nd;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+for(ii=0;ii<_nt->end;ii++){
+nd=_nt->_v_node[ii];
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+printf("ii");
+}
+fclose (fm);
 }
 ENDVERBATIM
 }

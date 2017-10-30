@@ -4,7 +4,7 @@ strdef fitFile,timesFile,paramsFile,stimFile,outFile,modelFile,outFPre
 modelFile = "./noMech.hoc"
 timesFile = "./times.dat"
 
-paramsFile = "./opt_params.dat"
+paramsFile = "././params/orig.dat"
 stimFile = "./Stims/Step.dat"
 outFile = "./volts/orig_step.dat"
 ntimestep =3168
@@ -235,7 +235,7 @@ finitialize(v_init)
 finitialize(v_init)
 //ADD STUFF HERE
 // Start topology output
-hoc_stdout("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/64T.csv")
+hoc_stdout("64T.csv")
 topology()
 forall{
 	printf("%s\n",secname())
@@ -244,16 +244,16 @@ forall{
 hoc_stdout()
 // End topology output
 // Start topologyList output
-hoc_stdout("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/64TL.csv")
+//hoc_stdout("64TL.csv")
 MyTopology()
-hoc_stdout()
+//hoc_stdout()
 // End topologyList output
 // Start mechanisms output
 objref mt,ms,fn,pp
 strdef s,ss,mname
 mt = new MechanismType(0)
 fn = new File()
-fn.wopen("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/64MDL.csv")
+fn.wopen("64MDL.csv")
 forall{
 	fn.printf("#%s\n",secname())
 	if (ismembrane("pas")){
@@ -285,7 +285,7 @@ fn.close()
 // End mechanisms output
 // Start point processess mechanisms output
 fn = new File()
-fn.wopen("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/64PP.csv")
+fn.wopen("64PP.csv")
 forall{
 	fn.printf("#%s\n",secname())
 	mt = new MechanismType(1)
@@ -304,12 +304,6 @@ fn.close()
 // End point processess mechanisms output
 // Start params output
 proc writeReversals(){
-access soma
-a=ek
-fn.vwrite(&a)
-access soma
-a=ena
-fn.vwrite(&a)
 }
 proc writeGGlobals(){
 a=celsius
@@ -322,29 +316,9 @@ a=secondorder
 fn.vwrite(&a)
 }
 proc writeNGlobals(){
-a=minf_hh2
-fn.vwrite(&a)
-a=hinf_hh2
-fn.vwrite(&a)
-a=ninf_hh2
-fn.vwrite(&a)
-a=mtau_hh2
-fn.vwrite(&a)
-a=htau_hh2
-fn.vwrite(&a)
-a=ntau_hh2
-fn.vwrite(&a)
 }
 proc proc0(){
 access soma
-a=gnabar_hh2
-fn.vwrite(&a)
-a=gkbar_hh2
-fn.vwrite(&a)
-a=gl_hh2
-fn.vwrite(&a)
-a=el_hh2
-fn.vwrite(&a)
 access dend[0]
 access dend[1]
 access apic[0]
@@ -364,7 +338,7 @@ access node[4]
 access Exts[0]
 }
 proc printParams(){
-fn.wopen("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/ParamM.dat")
+fn.wopen("ParamM.dat")
 writeReversals()
 writeGGlobals()
 writeNGlobals()
@@ -380,20 +354,17 @@ printParams()
 // End params output
 // Start Mat Output
 fcurrent()
-hoc_stdout("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/Mat.dat")
-MyPrintMatrix()
-hoc_stdout()
+MyPrintMatrix3()
 // endMat Output
-hoc_stdout("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/Fmatrix.csv")
+//hoc_stdout("Fmatrix.csv")
 MyPrintMatrix()
-hoc_stdout()
+//hoc_stdout()
 // End Fmatrix
 // Start Recording Sites
-hoc_stdout("C:/Users/rben.KECK-CENTER/Documents/GitHub/NeuroGPU/Neuron/printCell/Amit/output/RecList.csv")
+//hoc_stdout("RecList.csv")
 PrintRecSites()
-hoc_stdout()
-
+//hoc_stdout()
+topology()
 
 quit()
-
 

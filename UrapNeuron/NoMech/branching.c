@@ -1,5 +1,6 @@
 /* Created by Language version: 6.2.0 */
 /* NOT VECTORIZED */
+#define NRN_VECTORIZED 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -21,10 +22,26 @@ extern int _method3;
 extern double hoc_Exp(double);
 #endif
  
-#define _threadargscomma_ /**/
-#define _threadargs_ /**/
+#define nrn_init _nrn_init_
+#define _nrn_initial _nrn_initial_
+#define nrn_cur _nrn_cur_
+#define _nrn_current _nrn_current_
+#define nrn_jacob _nrn_jacob_
+#define nrn_state _nrn_state_
+#define _net_receive _net_receive_ 
+#define MyPrintMatrix3 MyPrintMatrix3_ 
+#define MyPrintMatrix1 MyPrintMatrix1_ 
+#define MyTopology1 MyTopology1_ 
+#define MyTopology2 MyTopology2_ 
+#define MyTopology MyTopology_ 
+#define MyAdb MyAdb_ 
+#define MyPrintMatrix MyPrintMatrix_ 
+#define PrintRHS_D PrintRHS_D_ 
+#define init_files init_files_ 
  
+#define _threadargscomma_ /**/
 #define _threadargsprotocomma_ /**/
+#define _threadargs_ /**/
 #define _threadargsproto_ /**/
  	/*SUPPRESS 761*/
 	/*SUPPRESS 762*/
@@ -53,6 +70,10 @@ extern "C" {
  /* declaration of user functions */
  static void _hoc_GetB(void);
  static void _hoc_GetA(void);
+ static void _hoc_MyPrintMatrix3(void);
+ static void _hoc_MyPrintMatrix1(void);
+ static void _hoc_MyTopology1(void);
+ static void _hoc_MyTopology2(void);
  static void _hoc_MyTopology(void);
  static void _hoc_MyAdb(void);
  static void _hoc_MyPrintMatrix(void);
@@ -82,6 +103,10 @@ extern Memb_func* memb_func;
  "setdata_branching", _hoc_setdata,
  "GetB", _hoc_GetB,
  "GetA", _hoc_GetA,
+ "MyPrintMatrix3", _hoc_MyPrintMatrix3,
+ "MyPrintMatrix1", _hoc_MyPrintMatrix1,
+ "MyTopology1", _hoc_MyTopology1,
+ "MyTopology2", _hoc_MyTopology2,
  "MyTopology", _hoc_MyTopology,
  "MyAdb", _hoc_MyAdb,
  "MyPrintMatrix", _hoc_MyPrintMatrix,
@@ -137,7 +162,7 @@ static void nrn_alloc(Prop* _prop) {
 }
  static void _initlists();
  extern Symbol* hoc_lookup(const char*);
-extern void _nrn_thread_reg(int, int, void(*f)(Datum*));
+extern void _nrn_thread_reg(int, int, void(*)(Datum*));
 extern void _nrn_thread_table_reg(int, void(*)(double*, Datum*, Datum*, _NrnThread*, int));
 extern void hoc_register_tolerance(int, HocStateTolerance*, Symbol***);
 extern void _cvode_abstol( Symbol**, double*, int);
@@ -146,7 +171,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 0;
   _initlists();
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 branching C:/Users/bensr/Documents/GitHub/NeuroGPU/UrapNeuron/HodgkinHuxley/branching.mod\n");
+ 	ivoc_help("help ?1 branching C:/Users/bensr/Dropbox/NeuroGPU/NeuroGPU4NoMech/UrapNeuron/NoMech/branching.mod\n");
  }
 static int _reset;
 static char *modelname = "";
@@ -155,6 +180,10 @@ static int error;
 static int _ninits = 0;
 static int _match_recurse=1;
 static void _modl_cleanup(){ _match_recurse=1;}
+static int MyPrintMatrix3();
+static int MyPrintMatrix1();
+static int MyTopology1();
+static int MyTopology2();
 static int MyTopology();
 static int MyAdb();
 static int MyPrintMatrix();
@@ -322,8 +351,9 @@ static int  MyPrintMatrix (  ) {
 #endif
 for(ii=0;ii<_nt->end;ii++){
 nd=_nt->_v_node[ii];
-printf("%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
 }
+fclose(fm);
 }
   return 0; }
  
@@ -400,6 +430,111 @@ static void _hoc_MyTopology(void) {
  MyTopology (  );
  hoc_retpushx(_r);
 }
+ 
+static int  MyTopology2 (  ) {
+   
+/*VERBATIM*/
+{
+	FILE * pFile;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+pFile = fopen ("parent.txt","w");
+for(ii=0;ii<_nt->end;ii++){
+
+fprintf(pFile,"%d ", _nt->_v_parent_index[ii]);
+}
+fclose (pFile);
+}
+  return 0; }
+ 
+static void _hoc_MyTopology2(void) {
+  double _r;
+   _r = 1.;
+ MyTopology2 (  );
+ hoc_retpushx(_r);
+}
+ 
+static int  MyTopology1 (  ) {
+   
+/*VERBATIM*/
+{
+	FILE * pFile;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+pFile = fopen ("64TL.csv","w");
+for(ii=0;ii<_nt->end;ii++){
+
+fprintf(pFile,"%d %d\n", ii, _nt->_v_parent_index[ii]);
+}
+fclose (pFile);
+}
+  return 0; }
+ 
+static void _hoc_MyTopology1(void) {
+  double _r;
+   _r = 1.;
+ MyTopology1 (  );
+ hoc_retpushx(_r);
+}
+ 
+static int  MyPrintMatrix1 (  ) {
+   
+/*VERBATIM*/
+{
+	Section* sec;
+	FILE* fm;
+	fm= fopen("64TL.csv", "w");
+	Node* nd;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+for(ii=0;ii<_nt->end;ii++){
+nd=_nt->_v_node[ii];
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+}
+fclose (fm);
+}
+  return 0; }
+ 
+static void _hoc_MyPrintMatrix1(void) {
+  double _r;
+   _r = 1.;
+ MyPrintMatrix1 (  );
+ hoc_retpushx(_r);
+}
+ 
+static int  MyPrintMatrix3 (  ) {
+   
+/*VERBATIM*/
+{
+	Section* sec;
+	FILE* fm;
+	fm= fopen("Fmatrix.csv", "w");
+	Node* nd;
+	int ii;
+#if defined(t)
+	_NrnThread* _nt = nrn_threads;
+#endif
+for(ii=0;ii<_nt->end;ii++){
+nd=_nt->_v_node[ii];
+fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+printf("ii");
+}
+fclose (fm);
+}
+  return 0; }
+ 
+static void _hoc_MyPrintMatrix3(void) {
+  double _r;
+   _r = 1.;
+ MyPrintMatrix3 (  );
+ hoc_retpushx(_r);
+}
 
 static void initmodel() {
   int _i; double _save;_ninits++;
@@ -434,8 +569,7 @@ static double _nrn_current(double _v){double _current=0.;v=_v;{
 }
 
 static void nrn_state(_NrnThread* _nt, _Memb_list* _ml, int _type){
- double _break, _save;
-Node *_nd; double _v; int* _ni; int _iml, _cntml;
+Node *_nd; double _v = 0.0; int* _ni; int _iml, _cntml;
 #if CACHEVEC
     _ni = _ml->_nodeindices;
 #endif
@@ -452,7 +586,6 @@ for (_iml = 0; _iml < _cntml; ++_iml) {
     _nd = _ml->_nodelist[_iml];
     _v = NODEV(_nd);
   }
- _break = t + .5*dt; _save = t;
  v=_v;
 {
 }}

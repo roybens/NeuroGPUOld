@@ -1,4 +1,4 @@
-// Automatically generated C for C:\Users\bensr\Documents\GitHub\NeuroGPU\URapNeuron\Mainen\runModel.hoc
+// Automatically generated C for C:\NeuroGPU4\URapNeuron\Mainen\runModel.hoc
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
