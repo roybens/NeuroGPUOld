@@ -6,10 +6,7 @@ modelFile = "C:/NeuroGPU4/UrapNeuron/MainenPy2/noMech.hoc"
 timesFile = "C:/NeuroGPU4/UrapNeuron/MainenPy2/Stims/times.dat" 
 load_file(modelFile)
 
-ntimestep =3176
-nparams =12
-psize =1
-ntraces =2
+
 
 create Exts[1]
 objref recSites

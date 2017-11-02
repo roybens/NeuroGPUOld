@@ -171,7 +171,7 @@ extern void _cvode_abstol( Symbol**, double*, int);
 	int _vectorized = 0;
   _initlists();
  	hoc_register_var(hoc_scdoub, hoc_vdoub, hoc_intfunc);
- 	ivoc_help("help ?1 branching C:/mod/branching.mod\n");
+ 	ivoc_help("help ?1 branching C:/NeuroGPU4NoMech/UrapNeuron/MainenPy2/branching.mod\n");
  }
 static int _reset;
 static char *modelname = "";
@@ -465,7 +465,7 @@ static int  MyTopology1 (  ) {
 #if defined(t)
 	_NrnThread* _nt = nrn_threads;
 #endif
-pFile = fopen ("../../Neuron/printCell/Amit/output/64TL.csv","w");
+pFile = fopen ("64TL.csv","w");
 for(ii=0;ii<_nt->end;ii++){
 
 fprintf(pFile,"%d %d\n", ii, _nt->_v_parent_index[ii]);
@@ -487,7 +487,7 @@ static int  MyPrintMatrix1 (  ) {
 {
 	Section* sec;
 	FILE* fm;
-	fm= fopen("../../Neuron/printCell/Amit/output/64TL.csv", "w");
+	fm= fopen("64TL.csv", "w");
 	Node* nd;
 	int ii;
 #if defined(t)
@@ -514,7 +514,7 @@ static int  MyPrintMatrix3 (  ) {
 {
 	Section* sec;
 	FILE* fm;
-	fm= fopen("../../Neuron/printCell/Amit/output/Fmatrix.csv", "w");
+	fm= fopen("Fmatrix.csv", "w");
 	Node* nd;
 	int ii;
 #if defined(t)
@@ -523,6 +523,7 @@ static int  MyPrintMatrix3 (  ) {
 for(ii=0;ii<_nt->end;ii++){
 nd=_nt->_v_node[ii];
 fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+printf("ii");
 }
 fclose (fm);
 }

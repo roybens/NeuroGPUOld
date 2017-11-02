@@ -17,7 +17,7 @@ import math
 # NSeg = input_dict['NSeg']
 # N = input_dict['N']
 # nrn = create_neuron(input_dict)
-# FN_TopoList = '/home/devloop0/neuroGPU/neuroGPU/Neuron/printCell/Amit/output/64TL.csv'
+# FN_TopoList = './64TL.csv'
 
 def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg_start,n_segs,seg_to_comp):
 	bool_model = np.array(bool_model)
@@ -224,7 +224,9 @@ def create_auxilliary_data_3(A, N, NSeg, Parent, cmVec,parent_seg,bool_model,seg
 	aux.LRelEnds = LRelEnds
 	aux.FLRelStarts = FLRelStarts
 	aux.FLRelEnds = FLRelEnds
+
 	CompDepth32 = CompByLevel32.shape[0]
+	aux.CompDepth32 = CompDepth32
 	CompFDepth32 = CompByFLevel32.shape[0]
 	
 	CompsMid[0] += 1

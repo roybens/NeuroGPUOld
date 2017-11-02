@@ -1,4 +1,4 @@
-usetable_hh2 = 0
+
 secondorder=0
 strdef fitFile,timesFile,paramsFile,stimFile,outFile,modelFile,outFPre
 modelFile = "./noMech.hoc"

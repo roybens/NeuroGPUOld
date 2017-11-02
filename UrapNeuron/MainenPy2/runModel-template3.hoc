@@ -1,29 +1,24 @@
-create Exts[1]objref st,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,mostload_file(modelFile)access dend4[3]
-st = new IClamp(0.46) 
+st_del= 10 
+st_dur = 30 
+st_amp = 0.5 
 strdef fitFile,timesFile,paramsFile,stimFile,outFile,modelFile,outFPre,base
-base= "C:\NeuroGPU4/UrapNeuron/MainenPy2/parent.txt" 
-paramsFile= "C:\NeuroGPU4/UrapNeuron/MainenPy2/params/opt_params.dat" 
-stimFile = "C:\NeuroGPU4/UrapNeuron/MainenPy2/Stims/stepsmall.dat" 
-modelFile = "C:\NeuroGPU4/UrapNeuron/MainenPy2/myMainen.hoc" 
-timesFile = "C:\NeuroGPU4/UrapNeuron/MainenPy2/times.dat" 
-outFile = "./volts/orig_step.dat"
-usetable_na=0
-usetable_km=0
-usetable_kv=0
-usetable_ca=0
-usetable_kca=0
-usetable_cad=0
-secondorder=0
-
-ntimestep =3176
-nparams =12
-
-psize =1
-ntraces =2
-create Exts[1]
+base= "C:\NeuroGPU4NoMech\UrapNeuron\MainenPy2/parent.txt" 
+paramsFile= "C:/NeuroGPU4NoMech/UrapNeuron/MainenPy2/params/001_120s1_pin.dat" 
+stimFile = "C:/NeuroGPU4NoMech/UrapNeuron/MainenPy2/Stims/Step.dat" 
+modelFile = "C:/NeuroGPU4NoMech/UrapNeuron/MainenPy2/myMainen.hoc" 
+timesFile = "C:/NeuroGPU4NoMech/UrapNeuron/MainenPy2/Volts/times.dat" 
+ntimestep= 3176 
+nparams = 12 
+psize = 1 
+ntraces = 2 
+st_del= 10 
+st_dur = 30 
+st_amp = 0.5 
 objref st,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,most
+fin = new File()
+fout = new File()
 load_file(modelFile)
-
+create Exts[1]
 objref recSites
 recSites = new SectionList()
 outFPre = "./volts/orig_step"
@@ -32,14 +27,8 @@ soma recSites.append()
 //dend[1] recSites.append()
 strFunc = new StringFunctions()
 access soma
-	st = new IClamp(0.5)
-st.del=10
-	st.dur=30
-	st.amp = 0.5
-fin = new File()
-fout = new File()
-tfinal=1000
 proc runMatrix(){
+
 	//access dend[1]
 	sprint(outFile,"%s_%s.dat",outFPre,secname())
 	st = new IClamp(0.5)
@@ -193,7 +182,11 @@ clist = new List()
 					
 	counter+=1				
 		}		
-	}		
+	}
+		print "printing counter"
+		print counter
+		
+		
 }
 
 proc countExts(){
@@ -204,6 +197,8 @@ forsec most {
 		ext_num+=1
 	}
 	}
+	
+	printf("ext_num is %d", ext_num)
 }
 
 
@@ -241,6 +236,11 @@ mul32()
 access soma
 transvec = pmat.getrow(0)
 tfunc()
+st = new IClamp(0.5)
+
+st.del = st_del
+st.dur = st_dur
+st.amp = st_amp 
 finitialize(v_init)
 
 
@@ -250,4 +250,4 @@ finitialize(v_init)
 finitialize(v_init)
 //ADD STUFF HERE
 
-//quit()
+quit()

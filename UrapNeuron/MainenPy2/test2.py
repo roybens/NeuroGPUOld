@@ -33,7 +33,7 @@ ParamStartVal = 0
 global StateStartVal
 StateStartVal = 0
 C_SUFFIX = '.c'
-modelFile = "./runModel.hoc"
+modelFile = "./runModel2.hoc"
 base_p = "./"
 ftypestr = 'float'
 p_size_set = 1

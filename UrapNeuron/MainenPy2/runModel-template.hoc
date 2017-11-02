@@ -1,7 +1,25 @@
+ntimestep= 3176 
+nparams = 12 
+psize = 1 
+ntraces = 2 
+st_del= 10 
+st_dur = 30 
+st_amp = 0.5 
+objref st,stims,fin,fout,pmat,matOut,stimtime,somaref,secref,extVec,strFunc,most
 fin = new File()
 fout = new File()
-tfinal=1000
+load_file(modelFile)
+create Exts[1]
+objref recSites
+recSites = new SectionList()
+outFPre = "./volts/orig_step"
+soma recSites.append()
+//node[1] recSites.append()
+//dend[1] recSites.append()
+strFunc = new StringFunctions()
+access soma
 proc runMatrix(){
+
 	//access dend[1]
 	sprint(outFile,"%s_%s.dat",outFPre,secname())
 	st = new IClamp(0.5)
@@ -209,6 +227,11 @@ mul32()
 access soma
 transvec = pmat.getrow(0)
 tfunc()
+st = new IClamp(0.5)
+
+st.del = st_del
+st.dur = st_dur
+st.amp = st_amp 
 finitialize(v_init)
 
 
@@ -218,4 +241,4 @@ finitialize(v_init)
 finitialize(v_init)
 //ADD STUFF HERE
 
-//quit()
+quit()

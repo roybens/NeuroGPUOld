@@ -1,10 +1,12 @@
 from file_io import get_lines, put_lines
+from cStringIO import StringIO
 import os
+import sys
 import neuron as nrn
 import numpy as np
 from cell import cell_numel
 import subprocess
-from cStringIO import StringIO
+
 
 
 def get_comp_index(types, compt_name):
@@ -13,11 +15,22 @@ def get_comp_index(types, compt_name):
         if(compt_name in types[i - 1] and types[i - 1][len(compt_name)] == '('):
             ind.append(i)
     return ind
+def write_fn_topo(out_fn,hoc_base_fn):
+    print 'in writefntopo'
+    out = StringIO.StringIO()
+    nrn.h.hoc_stdout()
+    sys.stdout = out
+    nrn.h.MyTopology()
+    my_topology = out.getvalue().split()
+    sys.stdout = sys.__stdout__
+    print 'end writefntopo'
+    print my_topology
+
 
 def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base_p, available_mechanisms, neuron_sc, reversals, comp_names, comp_mechanisms, g_globals, n_globals, neuron_types, ftypestr, p_size_set, param_set):
     #available_mechanisms = list(available_mechanisms)
     print "in prcoaddparam"
-    nrn.h("access iseg")
+
     #print nrn.h("gbar_na")
     nrn.h("access soma")
 
@@ -38,7 +51,12 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
   #  all_parameters_non_global_c = []
   #  for k, v in all_parameters_non_global_c_d.iteritems():
   #      all_parameters_non_global_c.append(v)
-    neuron_sc = [list(i) for i in neuron_sc]
+    tmp = []
+    for i in neuron_sc:
+        if len(i)>0:
+            tmp.append(list(i))
+    #neuron_sc = [list(i) for i in neuron_sc]
+    neuron_sc = tmp
     reversals = []
     for i in neuron_sc:
         for j in i:
@@ -62,14 +80,18 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
         param_start_i += [len(all_parameters_non_global_c[0])]
     else:
         param_start_i += list(np.cumsum(cell_numel(np.array(all_parameters_non_global_c))))
+    if len(all_parameters_non_global_c) == 0:
+        param_start_i = [0]
     param_start_i = np.array(param_start_i)
     fn = hoc_base_fn
     fn_with_topo = fn[:-4] + '_topo.hoc'
+    #write_fn_topo(fn_with_topo,hoc_base_fn)
     fn_with_param = fn[:-4] + '_param.hoc'
-    file_sep = '/'
-    fn_param_m = base_p + file_sep + '..' + file_sep + '..' + file_sep + 'Data2' + file_sep+ 'ParamM.dat'
-    fn_mat = base_p + file_sep + '..' + file_sep + '..' + file_sep + 'Neuron' + file_sep + 'printCell' + file_sep + 'Amit' + file_sep + 'output' + file_sep + 'Mat.dat'
+    file_sep = "/"
+    fn_param_m ='ParamM.dat'
+    fn_mat =   'Mat.dat'
     lines = get_lines(fn_with_topo)
+    print fn_with_topo
     add_line_i = np.where(np.array(['End point processess mechanisms output' in i for i in lines]))[0]
     if add_line_i.size != 1:
         raise RuntimeError('Problem with finding place to add code: End point processes mechanisms output')
@@ -97,30 +119,32 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
         reversals_c[cur_mod_i - 1] = neuron_sc[cur_mod_i - 1]
     reversals_c = np.array(reversals_c)
     rep_comp = [None for i in range(len(reversals))]
-    for i in range(1, len(reversals) + 1):
+    for i in range(0, len(reversals)):
         found_rep_comp = False
         while not found_rep_comp:
-            for c in range(1, len(comp_names) + 1):
+            print "here1"
+            for c in range(0, len(comp_names)):
+                print "here2 " + str(c) + " " + str(i)
                 cur_mech_f = []
                 for k in available_mechanisms:
-                    cur_mech_f.append(k in comp_mechanisms[c - 1])
-                cur_mech_f = np.where(np.array(cur_mech_f))
-                tmp = reversals_c[cur_mech_f[0]]
+                    cur_mech_f.append(k in comp_mechanisms[c])
+                cur_mech_f = np.where(np.array(cur_mech_f))[0]
+                tmp = reversals_c[cur_mech_f]
                 cur_reversals = []
-                for j in range(1, len(tmp) + 1):
-                    curr_temp = list(tmp[j - 1])
-                    for jj in range(1, len(curr_temp) + 1):
-                        cur_reversals.append(curr_temp[jj - 1])
+                for j in range(0, len(tmp)):
+                    curr_temp = list(tmp[j])
+                    for jj in range(0, len(curr_temp)):
+                        cur_reversals.append(curr_temp[jj])
                 cur_reversals = np.array(cur_reversals)
-                if reversals[i - 1] in cur_reversals:
-                    rep_comp[i - 1] = c
+                if reversals[i] in cur_reversals:
+                    rep_comp[i] = c
                     found_rep_comp = True
                     break
     added_lines = []
     added_lines.append('// Start params output')
     added_lines.append('proc writeReversals(){')
     for i in range(1, len(reversals) + 1):
-        added_lines.append('access ' + comp_names[rep_comp[i - 1] - 1][1:])
+        added_lines.append('access ' + comp_names[rep_comp[i - 1] ][1:])
         added_lines.append('a=' + str(reversals[i - 1]))
         added_lines.append('fn.vwrite(&a)')
     added_lines.append('}')
@@ -192,10 +216,17 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     out_lines.extend(added_lines)
     out_lines.extend([lines[i] for i in range(int(add_line_i[0]) + 1, len(lines))])
     # put_lines(fn_with_param, out_lines)
+    runmodelparam_file = open('runModel_param.hoc', 'w')
+    runmodelparam_file.write("%s\n" % '\n'.join(out_lines))
+    runmodelparam_file.close()
 
     runModel_hoc_object = nrn.hoc.HocObject()
-    runModel_hoc_object.execute('~' + '\n'.join(out_lines))
-    # runModel_hoc_object.load_file(1, fn_with_param)
+    subprocess.call(["nrniv", "runModel_param.hoc"])
+    #runModel_hoc_object.execute('~' + '\n'.join(out_lines))
+    #runModel_hoc_object.load_file(1, fn_with_param)
+    print 'before toplogy()'
+    nrn.h.topology()
+    print 'after toplogy()'
     # subprocess.call(["nrniv", "runModel_param.hoc"])
     f = open(fn_param_m, 'rb')
     reversals_v, g_globals_v, n_globals_v = [0 for i in range(len(reversals))], [0 for i in range(len(g_globals))], [0 for i in range(len(n_globals))]
@@ -206,6 +237,7 @@ def proc_add_param_to_hoc_for_opt(all_parameters_non_global_c, hoc_base_fn, base
     for i in range(len(n_globals)):
         n_globals_v[i] = np.fromfile(f, dtype=np.float64, count=1)[0]
     comp_topology_map = [None for i in range(len(comp_names))]
+
     all_params = np.zeros((n_sets[0], len(comp_names) * int(param_start_i[-1])))
     first_param_m = None
     #print str(comp_mechanisms)

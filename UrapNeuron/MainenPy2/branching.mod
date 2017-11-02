@@ -189,7 +189,7 @@ VERBATIM {
 #if defined(t)
 	_NrnThread* _nt = nrn_threads;
 #endif
-pFile = fopen ("../../Neuron/printCell/Amit/output/64TL.csv","w");
+pFile = fopen ("64TL.csv","w");
 for(ii=0;ii<_nt->end;ii++){
 
 fprintf(pFile,"%d %d\n", ii, _nt->_v_parent_index[ii]);
@@ -203,7 +203,7 @@ PROCEDURE MyPrintMatrix1() {
 VERBATIM {
 	Section* sec;
 	FILE* fm;
-	fm= fopen("../../Neuron/printCell/Amit/output/64TL.csv", "w");
+	fm= fopen("64TL.csv", "w");
 	Node* nd;
 	int ii;
 #if defined(t)
@@ -222,7 +222,7 @@ PROCEDURE MyPrintMatrix3() {
 VERBATIM {
 	Section* sec;
 	FILE* fm;
-	fm= fopen("../../Neuron/printCell/Amit/output/Fmatrix.csv", "w");
+	fm= fopen("Fmatrix.csv", "w");
 	Node* nd;
 	int ii;
 #if defined(t)
@@ -231,6 +231,7 @@ VERBATIM {
 for(ii=0;ii<_nt->end;ii++){
 nd=_nt->_v_node[ii];
 fprintf(fm,"%d %1.15f %1.15f %1.15f %1.15f\n", ii, NODEB(nd), NODEA(nd), NODED(nd), NODERHS(nd));
+printf("ii");
 }
 fclose (fm);
 }
